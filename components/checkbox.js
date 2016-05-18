@@ -23,6 +23,10 @@ function Checkbox (root, opts, theme, uuid) {
   label.htmlFor = 'checkbox-' + opts.label + uuid
   label.className = 'control-panel-checkbox-' + uuid
 
+  setTimeout(function () {
+    self.emit('initialized', input.checked)
+  })
+
   input.onchange = function (data) {
     self.emit('input', data.target.checked)
   }

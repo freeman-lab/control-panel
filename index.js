@@ -58,8 +58,8 @@ function Plate (items, opts) {
     opacity: 0.95
   })
 
-  if (opts.position === 'top-right' 
-    || opts.position === 'top-left' 
+  if (opts.position === 'top-right'
+    || opts.position === 'top-left'
     || opts.position === 'bottom-right'
     || opts.position === 'bottom-left') css(box, {position: 'absolute'})
 
@@ -87,6 +87,11 @@ function Plate (items, opts) {
 
   items.forEach(function (item) {
     element = components[item.type](box, item, opts.theme, id)
+
+    element.on('initialized', function (data) {
+      state[item.label] = data
+    })
+
     element.on('input', function (data) {
       state[item.label] = data
       self.emit('input', state)

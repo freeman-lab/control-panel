@@ -30,6 +30,10 @@ function Range (root, opts, theme, uuid) {
 
   var value = require('./value')(container, input.value, theme, '11%')
 
+  setTimeout(function () {
+    self.emit('initialized', parseFloat(input.value))
+  })
+
   input.oninput = function (data) {
     value.innerHTML = data.target.value
     self.emit('input', data.target.value)

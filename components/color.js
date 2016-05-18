@@ -67,6 +67,10 @@ function Color (root, opts, theme) {
     picker.$el.style.display = 'none'
   }
 
+  setTimeout(function () {
+    self.emit('initialized', initial)
+  })
+
   picker.onChange(function (hex) {
     value.innerHTML = format(hex)
     css(icon, {backgroundColor: hex})

@@ -31,6 +31,10 @@ function Text (root, opts, theme) {
     color: theme.text2
   })
 
+  setTimeout(function () {
+    self.emit('initialized', input.value)
+  })
+
   input.oninput = function (data) {
     self.emit('input', data.target.value)
   }
