@@ -15,7 +15,7 @@ Embeddable panel of inputs for adding parameter selection to your app or visuali
 
 > Supports the following input types
 
-> `range` • `checkbox` • `text` • `color`
+> `range` • `checkbox` • `text` • `color` • `button`
 
 ----------------
 
@@ -44,7 +44,8 @@ var panel = control([
   {type: 'range', label: 'my range', min: 0, max: 100, initial: 20},
   {type: 'text', label: 'my text', initial: 'my cool setting'},
   {type: 'checkbox', label: 'my checkbox', initial: true},
-  {type: 'color', label: 'my color', format: 'rgb', initial: 'rgb(10,200,0)'}
+  {type: 'color', label: 'my color', format: 'rgb', initial: 'rgb(10,200,0)'},
+  {type: 'button', label: 'gimme an alert', action: function () {alert('hello!');}}
 ], 
   {theme: 'light', position: 'top-right'}
 )
@@ -65,6 +66,7 @@ Each `type` must be one of `range` • `input` • `checkbox` • `color`. Each 
 Some types have additional properties:
 - Inputs of type `range` can specify a `min`, `max`, and `step`
 - Inputs of type `color` can specify a `format` as either `rgb` • `hex` • `array`
+- Inputs of tyep `button` can specify an `action` callback. Button inputs are not reflected in the state and do not trigger an `'input'` event.
 
 The following optional parameters can also be passed as `opts`
 - `root` root element to which to append the panel

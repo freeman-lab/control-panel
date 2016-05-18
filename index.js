@@ -30,6 +30,7 @@ function Plate (items, opts) {
   var colorcss = fs.readFileSync(path.join(__dirname, 'components', 'styles', 'color.css'))
   var rangecss = fs.readFileSync(path.join(__dirname, 'components', 'styles', 'range.css'))
   var checkboxcss = fs.readFileSync(path.join(__dirname, 'components', 'styles', 'checkbox.css'))
+  var buttoncss = fs.readFileSync(path.join(__dirname, 'components', 'styles', 'button.css'))
 
   rangecss = String(rangecss)
     .replace(new RegExp('{{ THUMB_COLOR }}', 'g'), opts.theme.foreground1)
@@ -39,10 +40,18 @@ function Plate (items, opts) {
     .replace(new RegExp('{{ BOX_COLOR }}', 'g'), opts.theme.background2)
     .replace(new RegExp('{{ ICON_COLOR }}', 'g'), opts.theme.foreground1)
     .replace(new RegExp('{{ UUID }}', 'g'), id)
+  buttoncss = String(buttoncss)
+    .replace(new RegExp('{{ BUTTON_COLOR }}', 'g'), opts.theme.text2)
+    .replace(new RegExp('{{ BUTTON_BG }}', 'g'), opts.theme.background2)
+    .replace(new RegExp('{{ BUTTON_COLOR_HOVER }}', 'g'), opts.theme.text2)
+    .replace(new RegExp('{{ BUTTON_BG_HOVER }}', 'g'), opts.theme.background2hover)
+    .replace(new RegExp('{{ BUTTON_COLOR_ACTIVE }}', 'g'), opts.theme.background2)
+    .replace(new RegExp('{{ BUTTON_BG_ACTIVE }}', 'g'), opts.theme.text2)
+
   insertcss(rangecss)
   insertcss(colorcss)
   insertcss(basecss)
-  insertcss(checkboxcss)
+  insertcss(buttoncss)
 
   var elem = document.createElement('style')
   elem.setAttribute('type', 'text/css')
@@ -58,8 +67,8 @@ function Plate (items, opts) {
     opacity: 0.95
   })
 
-  if (opts.position === 'top-right' 
-    || opts.position === 'top-left' 
+  if (opts.position === 'top-right'
+    || opts.position === 'top-left'
     || opts.position === 'bottom-right'
     || opts.position === 'bottom-left') css(box, {position: 'absolute'})
 
@@ -72,6 +81,7 @@ function Plate (items, opts) {
   if (opts.title) require('./components/title')(box, opts.title, opts.theme)
 
   var components = {
+    button: require('./components/button'),
     text: require('./components/text'),
     range: require('./components/range'),
     checkbox: require('./components/checkbox'),
@@ -82,7 +92,9 @@ function Plate (items, opts) {
   var state = {}
 
   items.forEach(function (item) {
-    state[item.label] = item.initial
+    if (item.type !== 'button') {
+      state[item.label] = item.initial
+    }
   })
 
   items.forEach(function (item) {

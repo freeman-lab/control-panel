@@ -1,0 +1,12 @@
+.control-panel-button {
+  color: {{ BUTTON_COLOR }};
+  background-color: {{ BUTTON_BG }};
+}
+.control-panel-button:hover {
+  color: {{ BUTTON_COLOR_HOVER }};
+  background-color: {{ BUTTON_BG_HOVER }};
+}
+.control-panel-button:active {
+  color: {{ BUTTON_COLOR_ACTIVE }};
+  background-color: {{ BUTTON_BG_ACTIVE }};
+}
