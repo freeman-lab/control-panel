@@ -15,7 +15,7 @@ Embeddable panel of inputs for adding parameter selection to your app or visuali
 
 > Supports the following input types
 
-> `range` • `checkbox` • `text` • `color`
+> `range` • `checkbox` • `text` • `color` • `interval`
 
 ----------------
 
@@ -60,11 +60,12 @@ The first argument is a list of inputs. Each one must have a `type` and `label` 
 {type: 'checkbox', label: 'my checkbox', initial: true}
 ```
 
-Each `type` must be one of `range` • `input` • `checkbox` • `color`. Each `label` must be unique. 
+Each `type` must be one of `range` • `input` • `checkbox` • `color` • `interval`. Each `label` must be unique. 
 
 Some types have additional properties:
 - Inputs of type `range` can specify a `min`, `max`, and `step`
 - Inputs of type `color` can specify a `format` as either `rgb` • `hex` • `array`
+- Inputs of interval obey the same semantics as `range` inputs, excep the input and ouput is a two-element array corresponding to the low/high bounds, e.g. `initial: [1, 7.5]`.
 
 The following optional parameters can also be passed as `opts`
 - `root` root element to which to append the panel

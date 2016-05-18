@@ -1,0 +1,33 @@
+.control-panel-interval-{{ UUID }} {
+  -webkit-appearance: none;
+  position: absolute;
+  height: 20px;
+  margin: 0px 0;
+  width: 33%;
+  left: 52.5%;
+  background-color: {{ TRACK_COLOR }};
+  cursor: ew-resize;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.control-panel-interval-{{ UUID }} .control-panel-interval-handle {
+  background-color: {{ INTERVAL_COLOR }};
+  position: absolute;
+  height: 20px;
+  min-width: 1px;
+}
+#control-panel{{ UUID }}.control-panel-interval-dragging * {
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  -khtml-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+
+  cursor: ew-resize !important;
+}

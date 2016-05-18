@@ -30,6 +30,7 @@ function Plate (items, opts) {
   var colorcss = fs.readFileSync(path.join(__dirname, 'components', 'styles', 'color.css'))
   var rangecss = fs.readFileSync(path.join(__dirname, 'components', 'styles', 'range.css'))
   var checkboxcss = fs.readFileSync(path.join(__dirname, 'components', 'styles', 'checkbox.css'))
+  var intervalcss = fs.readFileSync(path.join(__dirname, 'components', 'styles', 'interval.css'))
 
   rangecss = String(rangecss)
     .replace(new RegExp('{{ THUMB_COLOR }}', 'g'), opts.theme.foreground1)
@@ -39,10 +40,15 @@ function Plate (items, opts) {
     .replace(new RegExp('{{ BOX_COLOR }}', 'g'), opts.theme.background2)
     .replace(new RegExp('{{ ICON_COLOR }}', 'g'), opts.theme.foreground1)
     .replace(new RegExp('{{ UUID }}', 'g'), id)
+  intervalcss = String(intervalcss)
+    .replace(new RegExp('{{ INTERVAL_COLOR }}', 'g'), opts.theme.foreground1)
+    .replace(new RegExp('{{ TRACK_COLOR }}', 'g'), opts.theme.background2)
+    .replace(new RegExp('{{ UUID }}', 'g'), id)
   insertcss(rangecss)
   insertcss(colorcss)
   insertcss(basecss)
   insertcss(checkboxcss)
+  insertcss(intervalcss)
 
   var elem = document.createElement('style')
   elem.setAttribute('type', 'text/css')
@@ -58,8 +64,8 @@ function Plate (items, opts) {
     opacity: 0.95
   })
 
-  if (opts.position === 'top-right' 
-    || opts.position === 'top-left' 
+  if (opts.position === 'top-right'
+    || opts.position === 'top-left'
     || opts.position === 'bottom-right'
     || opts.position === 'bottom-left') css(box, {position: 'absolute'})
 
@@ -75,7 +81,8 @@ function Plate (items, opts) {
     text: require('./components/text'),
     range: require('./components/range'),
     checkbox: require('./components/checkbox'),
-    color: require('./components/color')
+    color: require('./components/color'),
+    interval: require('./components/interval')
   }
 
   var element
