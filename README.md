@@ -15,7 +15,7 @@ Embeddable panel of inputs for adding parameter selection to your app or visuali
 
 > Supports the following input types
 
-> `range` • `checkbox` • `text` • `color`
+> `range` • `checkbox` • `text` • `color` • `select`
 
 ----------------
 
@@ -44,7 +44,8 @@ var panel = control([
   {type: 'range', label: 'my range', min: 0, max: 100, initial: 20},
   {type: 'text', label: 'my text', initial: 'my cool setting'},
   {type: 'checkbox', label: 'my checkbox', initial: true},
-  {type: 'color', label: 'my color', format: 'rgb', initial: 'rgb(10,200,0)'}
+  {type: 'color', label: 'my color', format: 'rgb', initial: 'rgb(10,200,0)'},
+  {type: 'select', label: 'select one', options: ['option 1', 'option 2'], initial: 'option 1'}
 ], 
   {theme: 'light', position: 'top-right'}
 )
@@ -60,11 +61,12 @@ The first argument is a list of inputs. Each one must have a `type` and `label` 
 {type: 'checkbox', label: 'my checkbox', initial: true}
 ```
 
-Each `type` must be one of `range` • `input` • `checkbox` • `color`. Each `label` must be unique. 
+Each `type` must be one of `range` • `input` • `checkbox` • `color` • `select`. Each `label` must be unique. 
 
 Some types have additional properties:
 - Inputs of type `range` can specify a `min`, `max`, and `step`
 - Inputs of type `color` can specify a `format` as either `rgb` • `hex` • `array`
+- Inputs of type `select` can specify a list of options, either as an `Array` (in which case the value is the same as the option text) or as an object containing key/value pairs (in which case the key/value pair maps to value value/label pairs).
 
 The following optional parameters can also be passed as `opts`
 - `root` root element to which to append the panel
