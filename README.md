@@ -42,6 +42,7 @@ var control = require('control-panel')
 
 var panel = control([
   {type: 'range', label: 'my range', min: 0, max: 100, initial: 20},
+  {type: 'range', label: 'log range', min: 0.1, max: 100, initial: 20, scale: 'log'},
   {type: 'text', label: 'my text', initial: 'my cool setting'},
   {type: 'checkbox', label: 'my checkbox', initial: true},
   {type: 'color', label: 'my color', format: 'rgb', initial: 'rgb(10,200,0)'}
@@ -63,7 +64,7 @@ The first argument is a list of inputs. Each one must have a `type` and `label` 
 Each `type` must be one of `range` • `input` • `checkbox` • `color`. Each `label` must be unique. 
 
 Some types have additional properties:
-- Inputs of type `range` can specify a `min`, `max`, and `step`
+- Inputs of type `range` can specify a `min`, `max`, and `step` (or integer `steps`). Scale can be either `'linear'` (default) or `'log'`. If a log scale, the sign of `min`, `max`, and `initial` must be the same and only `steps` is permitted (since the step size is not constant on a log scale).
 - Inputs of type `color` can specify a `format` as either `rgb` • `hex` • `array`
 
 The following optional parameters can also be passed as `opts`

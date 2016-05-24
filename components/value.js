@@ -13,7 +13,8 @@ module.exports = function (root, text, theme, width) {
     paddingLeft: '1.5%',
     height: '20px',
     width: width,
-    display: 'inline-block'
+    display: 'inline-block',
+    overflow: 'hidden'
   })
 
   css(value, {
