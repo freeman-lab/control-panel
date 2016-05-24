@@ -6,6 +6,8 @@
   -ms-user-select: none;
   user-select: none;
   cursor: default;
+  text-align: left;
+  box-sizing: border-box;
 }
 
 .control-panel input {
