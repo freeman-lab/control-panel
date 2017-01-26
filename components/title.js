@@ -9,8 +9,9 @@ module.exports = function (root, text, theme) {
     textAlign: 'center',
     color: theme.text2,
     textTransform: 'uppercase',
-    height: '20px',
-    marginBottom: '4px'
+    lineHeight: '1.2',
+    marginTop: '0',
+    marginBottom: '1em'
   })
 
   return title

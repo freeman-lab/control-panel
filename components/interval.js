@@ -2,6 +2,8 @@ var EventEmitter = require('events').EventEmitter
 var inherits = require('inherits')
 var isnumeric = require('is-numeric')
 var css = require('dom-css')
+var isMobile = require('is-mobile')()
+var format = require('param-case')
 
 module.exports = Range
 inherits(Range, EventEmitter)
@@ -15,8 +17,9 @@ function Range (root, opts, theme, uuid) {
   var self = this
   var scaleValue, scaleValueInverse, logmin, logmax, logsign, panel, input, handle
 
-  var container = require('./container')(root, opts.label)
-  require('./label')(container, opts.label, theme)
+  var id = 'control-panel-interval-value-' + format(opts.label) + '-' + uuid
+  var container = require('./container')(root, opts.label, opts.help)
+  require('./label')(container, opts.label, theme, id)
 
   if (!!opts.step && !!opts.steps) {
     throw new Error('Cannot specify both step and steps. Got step = ' + opts.step + ', steps = ', opts.steps)
@@ -27,6 +30,7 @@ function Range (root, opts, theme, uuid) {
   })
 
   input = container.appendChild(document.createElement('span'))
+  input.id = 'control-panel-interval-' + uuid
   input.className = 'control-panel-interval-' + uuid
 
   handle = document.createElement('span')
@@ -121,15 +125,29 @@ function Range (root, opts, theme, uuid) {
   setHandleCSS()
 
   // Display the values:
-  var lValue = require('./value')(container, scaleValue(opts.initial[0]), theme, '11%', true)
-  var rValue = require('./value')(container, scaleValue(opts.initial[1]), theme, '11%')
+  var lValue = require('./value')(container, {
+    initial: scaleValue(opts.initial[0]),
+    theme: theme,
+    width: '13%',
+    type: 'text',
+    left: true,
+    id: id,
+    uuid: uuid
+  })
+  var rValue = require('./value')(container, {
+    initial: scaleValue(opts.initial[1]),
+    theme: theme,
+    width: '13%',
+    type: 'text',
+    uuid: uuid
+  })
 
   // An index to track what's being dragged:
   var activeIndex = -1
 
   function mouseX (ev) {
-    // Get mouse position in page coords relative to the container:
-    return ev.pageX - input.getBoundingClientRect().left
+    // Get mouse/touch position in page coords relative to the container:
+    return (ev.touches && ev.touches[0] || ev).pageX - input.getBoundingClientRect().left
   }
 
   function setActiveValue (fraction) {
@@ -160,6 +178,8 @@ function Range (root, opts, theme, uuid) {
   }
 
   var mousemoveListener = function (ev) {
+    if (ev.target === input || ev.target === handle) ev.preventDefault()
+
     var fraction = clamp(mouseX(ev) / input.offsetWidth, 0, 1)
 
     setActiveValue(fraction)
@@ -167,17 +187,14 @@ function Range (root, opts, theme, uuid) {
 
   var mouseupListener = function (ev) {
     panel.classList.remove('control-panel-interval-dragging')
-    var fraction = clamp(mouseX(ev) / input.offsetWidth, 0, 1)
 
-    setActiveValue(fraction)
-
-    document.removeEventListener('mousemove', mousemoveListener)
-    document.removeEventListener('mouseup', mouseupListener)
+    document.removeEventListener(isMobile ? 'touchmove' : 'mousemove', mousemoveListener)
+    document.removeEventListener(isMobile ? 'touchend' : 'mouseup', mouseupListener)
 
     activeIndex = -1
   }
 
-  input.addEventListener('mousedown', function (ev) {
+  input.addEventListener(isMobile ? 'touchstart' : 'mousedown', function (ev) {
     // Tweak control to make dragging experience a little nicer:
     panel.classList.add('control-panel-interval-dragging')
 
@@ -201,23 +218,23 @@ function Range (root, opts, theme, uuid) {
 
     // Attach this to *document* so that we can still drag if the mouse
     // passes outside the container:
-    document.addEventListener('mousemove', mousemoveListener)
-    document.addEventListener('mouseup', mouseupListener)
+    document.addEventListener(isMobile ? 'touchmove' : 'mousemove', mousemoveListener)
+    document.addEventListener(isMobile ? 'touchend' : 'mouseup', mouseupListener)
   })
 
   setTimeout(function () {
     var scaledLValue = scaleValue(value[0])
     var scaledRValue = scaleValue(value[1])
-    lValue.innerHTML = scaledLValue
-    rValue.innerHTML = scaledRValue
+    lValue.value = scaledLValue
+    rValue.value = scaledRValue
     self.emit('initialized', [scaledLValue, scaledRValue])
   })
 
   input.oninput = function () {
     var scaledLValue = scaleValue(value[0])
     var scaledRValue = scaleValue(value[1])
-    lValue.innerHTML = scaledLValue
-    rValue.innerHTML = scaledRValue
+    lValue.value = scaledLValue
+    rValue.value = scaledRValue
     self.emit('input', [scaledLValue, scaledRValue])
   }
 }

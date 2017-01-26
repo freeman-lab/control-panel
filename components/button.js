@@ -8,7 +8,7 @@ inherits(Button, EventEmitter)
 function Button (root, opts, theme, uuid) {
   if (!(this instanceof Button)) return new Button(root, opts, theme, uuid)
 
-  var container = require('./container')(root, opts.label)
+  var container = require('./container')(root, opts.label, opts.help)
   require('./label')(container, '', theme)
 
   var input = container.appendChild(document.createElement('button'))
@@ -23,8 +23,8 @@ function Button (root, opts, theme, uuid) {
   css(input, {
     position: 'absolute',
     textAlign: 'center',
-    height: '20px',
-    width: '62%',
+    height: '2em',
+    width: '64%',
     border: 'none',
     cursor: 'pointer',
     right: 0,

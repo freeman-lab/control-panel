@@ -1,9 +1,9 @@
 .control-panel-select-{{ UUID }}-dropdown {
   display: inline-block;
   position: absolute;
-  width: 62%;
+  width: 64%;
   padding-left: 1.5%;
-  height: 20px;
+  height: 2em;
   border: none;
   border-radius: 0;
   outline: none;
@@ -20,20 +20,20 @@
 }
 .control-panel-select-{{ UUID }}-triangle {
   content: ' ';
-  border-right: 3px solid transparent;
-  border-left: 3px solid transparent;
-  line-height: 20px;
+  border-right: .3em solid transparent;
+  border-left: .3em solid transparent;
+  line-height: 2em;
   position: absolute;
   right: 2.5%;
   z-index: 1;
 }
 .control-panel-select-{{ UUID }}-triangle--down {
-  top: 11px;
-  border-top: 5px solid {{ TEXT_COLOR }};
-  border-bottom: 0px transparent;
+  top: 1.1em;
+  border-top: .5em solid {{ TEXT_COLOR }};
+  border-bottom: .0 transparent;
 }
 .control-panel-select-{{ UUID }}-triangle--up {
-  top: 4px;
-  border-bottom: 5px solid {{ TEXT_COLOR }};
+  top: .4em;
+  border-bottom: .5em solid {{ TEXT_COLOR }};
   border-top: 0px transparent;
 }

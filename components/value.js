@@ -1,37 +1,43 @@
 var css = require('dom-css')
 
-module.exports = function (root, text, theme, width, left) {
-  var background = root.appendChild(document.createElement('div'))
-  var value = background.appendChild(document.createElement('span'))
+module.exports = function (root, opts) {
+  opts = opts || {}
+  var value = document.createElement('input')
+  value.setAttribute('type', opts.type || 'text')
 
-  value.innerHTML = text
-
-  var bgcss = {
-    position: 'absolute',
-    backgroundColor: theme.background2,
-    paddingLeft: '1.5%',
-    height: '20px',
-    width: width,
-    display: 'inline-block',
-    overflow: 'hidden'
+  if (opts.type === 'number') {
+    if (opts.min != null) value.min = opts.min
+    if (opts.max != null) value.max = opts.max
+    if (opts.step != null) value.step = opts.step
+    else value.step = (opts.max - opts.min) / 100 || 1
   }
 
-  if (!left) {
+  if (opts.input) {
+    value.addEventListener('input', function () {
+      opts.input(value.value)
+    })
+  }
+  if (opts.change) {
+    value.addEventListener('change', function () {
+      opts.change(value.value)
+    })
+  }
+
+  value.value = opts.initial
+
+  value.id = opts.id || 'control-panel-value-' + opts.uuid
+  value.className = 'control-panel-value-' + opts.uuid
+  root.appendChild(value)
+
+  var bgcss = {
+    width: opts.width
+  }
+
+  if (!opts.left) {
     bgcss.right = 0
   }
 
-  css(background, bgcss)
-
-  css(value, {
-    color: theme.text2,
-    display: 'inline-block',
-    userSelect: 'text',
-    cursor: 'text',
-    overflow: 'hidden',
-    lineHeight: '20px',
-    wordBreak: 'break-all',
-    height: 20
-  })
+  css(value, bgcss)
 
   return value
 }

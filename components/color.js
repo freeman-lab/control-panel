@@ -3,6 +3,7 @@ var ColorPicker = require('simple-color-picker')
 var inherits = require('inherits')
 var css = require('dom-css')
 var tinycolor = require('tinycolor2')
+var formatParam = require('param-case')
 
 module.exports = Color
 inherits(Color, EventEmitter)
@@ -14,13 +15,25 @@ function Color (root, opts, theme, uuid) {
   opts.initial = opts.initial || '#123456'
   var self = this
 
-  var container = require('./container')(root, opts.label)
-  require('./label')(container, opts.label, theme)
+  var id = 'control-panel-color-value-' + formatParam(opts.label) + '-' + uuid
+
+  var container = require('./container')(root, opts.label, opts.help)
+  require('./label')(container, opts.label, theme, id)
 
   var icon = container.appendChild(document.createElement('span'))
+  icon.id = 'control-panel-color-' + uuid
   icon.className = 'control-panel-color-' + uuid
 
-  var value = require('./value')(container, '', theme, '46%')
+  var value = require('./value')(container, {
+    initial: '',
+    theme: theme,
+    width: '50%',
+    uuid: uuid,
+    id: id,
+    change: function (v) {
+      picker.setColor(v)
+    }
+  })
 
   icon.onmouseover = function () {
     picker.$el.style.display = ''
@@ -50,7 +63,7 @@ function Color (root, opts, theme, uuid) {
   })
 
   css(picker.$el, {
-    marginTop: '20px',
+    marginTop: '2em',
     display: 'none',
     position: 'absolute'
   })
@@ -58,8 +71,9 @@ function Color (root, opts, theme, uuid) {
   css(icon, {
     position: 'relative',
     display: 'inline-block',
-    width: '12.5%',
-    height: '20px',
+    verticalAlign: 'top',
+    width: '13%',
+    height: '2em',
     backgroundColor: picker.getHexString()
   })
 
@@ -72,7 +86,7 @@ function Color (root, opts, theme, uuid) {
   })
 
   picker.onChange(function (hex) {
-    value.innerHTML = format(hex)
+    value.value = format(hex)
     css(icon, {backgroundColor: hex})
     self.emit('input', format(hex))
   })

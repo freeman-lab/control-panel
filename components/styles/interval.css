@@ -1,10 +1,10 @@
 .control-panel-interval-{{ UUID }} {
   -webkit-appearance: none;
   position: absolute;
-  height: 20px;
+  height: 2em;
   margin: 0px 0;
-  width: 33%;
-  left: 52.5%;
+  width: 36%;
+  left: 50%;
   background-color: {{ TRACK_COLOR }};
   cursor: ew-resize;
 
@@ -18,7 +18,7 @@
 .control-panel-interval-{{ UUID }} .control-panel-interval-handle {
   background-color: {{ INTERVAL_COLOR }};
   position: absolute;
-  height: 20px;
+  height: 2em;
   min-width: 1px;
 }
 #control-panel-{{ UUID }}.control-panel-interval-dragging * {

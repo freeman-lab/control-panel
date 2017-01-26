@@ -1,0 +1,23 @@
+.control-panel-value-{{ UUID }} {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+  padding: 0 0 0 .5em;
+  display: inline-block;
+  cursor: text;
+  display: inline-block;
+  position: absolute;
+  width: 62%;
+  height: 2em;
+  border: none;
+  border-radius: 0;
+  outline: none;
+  font-family: inherit;
+  background-color: {{ BG_COLOR }};
+  color: {{ TEXT_COLOR }};
+}
+.control-panel-value-{{ UUID }}:focus {
+  outline: 0;
+  box-shadow: 0;
+}

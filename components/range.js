@@ -2,6 +2,7 @@ var EventEmitter = require('events').EventEmitter
 var inherits = require('inherits')
 var isnumeric = require('is-numeric')
 var css = require('dom-css')
+var format = require('param-case')
 
 module.exports = Range
 inherits(Range, EventEmitter)
@@ -11,8 +12,10 @@ function Range (root, opts, theme, uuid) {
   var self = this
   var scaleValue, scaleValueInverse, logmin, logmax, logsign
 
-  var container = require('./container')(root, opts.label)
-  require('./label')(container, opts.label, theme)
+  var id = 'control-panel-range-value-' + format(opts.label) + '-' + uuid
+
+  var container = require('./container')(root, opts.label, opts.help)
+  require('./label')(container, opts.label, theme, id)
 
   if (!!opts.step && !!opts.steps) {
     throw new Error('Cannot specify both step and steps. Got step = ' + opts.step + ', steps = ', opts.steps)
@@ -21,6 +24,7 @@ function Range (root, opts, theme, uuid) {
   var input = container.appendChild(document.createElement('input'))
   input.type = 'range'
   input.className = 'control-panel-range-' + uuid
+  input.id = 'control-panel-range-' + uuid
 
   // Create scale functions for converting to/from the desired scale:
   if (opts.scale === 'log') {
@@ -95,10 +99,24 @@ function Range (root, opts, theme, uuid) {
   input.value = opts.initial
 
   css(input, {
-    width: '47.5%'
+    width: '50%'
   })
 
-  var value = require('./value')(container, scaleValue(opts.initial), theme, '11%')
+  var value = require('./value')(container, {
+    id: id,
+    initial: scaleValue(opts.initial),
+    theme: theme,
+    width: '13%',
+    type: opts.scale === 'log' ? 'text' : 'number',
+    uuid: uuid,
+    min: scaleValue(opts.min),
+    max: scaleValue(opts.max),
+    step: opts.step,
+    input: function (v) {
+      input.value = v
+      value.value = scaleValue(v)
+    }
+  })
 
   setTimeout(function () {
     self.emit('initialized', parseFloat(input.value))
@@ -106,7 +124,7 @@ function Range (root, opts, theme, uuid) {
 
   input.oninput = function (data) {
     var scaledValue = scaleValue(parseFloat(data.target.value))
-    value.innerHTML = scaledValue
+    value.value = scaledValue
     self.emit('input', scaledValue)
   }
 }

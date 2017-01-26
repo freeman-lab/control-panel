@@ -35,11 +35,12 @@
   "dependencies": {
     "brfs": "^1.4.3",
     "dom-css": "^2.0.0",
+    "get-uid": "^1.0.1",
     "inherits": "^2.0.1",
     "insert-css": "^0.2.0",
+    "is-mobile": "^0.2.2",
     "is-numeric": "0.0.5",
     "is-string": "^1.0.4",
-    "node-uuid": "^1.4.7",
     "param-case": "^1.1.2",
     "simple-color-picker": "0.0.9",
     "tinycolor2": "^1.3.0"

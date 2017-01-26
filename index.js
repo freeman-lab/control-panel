@@ -6,7 +6,7 @@ var insertcss = require('insert-css')
 var path = require('path')
 var isstring = require('is-string')
 var themes = require('./themes')
-var uuid = require('node-uuid')
+var uuid = require('get-uid')
 
 module.exports = Plate
 inherits(Plate, EventEmitter)
@@ -21,8 +21,8 @@ function Plate (items, opts) {
   opts.root = opts.root || document.body
   opts.position = opts.position
 
-  var box = document.createElement('div')
-  var id = uuid.v4()
+  var box = this.box = document.createElement('form')
+  var id = uuid()
   box.className = 'control-panel'
   box.id = 'control-panel-' + id
 
@@ -33,7 +33,12 @@ function Plate (items, opts) {
   var buttoncss = fs.readFileSync(path.join(__dirname, 'components', 'styles', 'button.css'))
   var intervalcss = fs.readFileSync(path.join(__dirname, 'components', 'styles', 'interval.css'))
   var selectcss = fs.readFileSync(path.join(__dirname, 'components', 'styles', 'select.css'))
+  var valuecss = fs.readFileSync(path.join(__dirname, 'components', 'styles', 'value.css'))
 
+  basecss = String(basecss)
+    .replace(new RegExp('{{ FONT_FAMILY }}', 'g'), opts.theme.fontFamily)
+    .replace(new RegExp('{{ FONT_SIZE }}', 'g'), opts.theme.fontSize)
+    .replace(new RegExp('{{ HELP_COLOR }}', 'g'), opts.theme.foreground1)
   rangecss = String(rangecss)
     .replace(new RegExp('{{ THUMB_COLOR }}', 'g'), opts.theme.foreground1)
     .replace(new RegExp('{{ TRACK_COLOR }}', 'g'), opts.theme.background2)
@@ -59,6 +64,10 @@ function Plate (items, opts) {
     .replace(new RegExp('{{ BG_COLOR }}', 'g'), opts.theme.background2)
     .replace(new RegExp('{{ BG_COLOR_HOVER }}', 'g'), opts.theme.background2hover)
     .replace(new RegExp('{{ UUID }}', 'g'), id)
+  valuecss = String(valuecss)
+    .replace(new RegExp('{{ TEXT_COLOR }}', 'g'), opts.theme.text2)
+    .replace(new RegExp('{{ BG_COLOR }}', 'g'), opts.theme.background2)
+    .replace(new RegExp('{{ UUID }}', 'g'), id)
   insertcss(basecss)
   insertcss(rangecss)
   insertcss(colorcss)
@@ -66,12 +75,7 @@ function Plate (items, opts) {
   insertcss(buttoncss)
   insertcss(intervalcss)
   insertcss(selectcss)
-
-  var elem = document.createElement('style')
-  elem.setAttribute('type', 'text/css')
-  elem.setAttribute('rel', 'stylesheet')
-  elem.setAttribute('href', '//cdn.jsdelivr.net/font-hack/2.019/css/hack.min.css')
-  document.getElementsByTagName('head')[0].appendChild(elem)
+  insertcss(valuecss)
 
   css(box, {
     background: opts.theme.background1,
@@ -81,16 +85,18 @@ function Plate (items, opts) {
     opacity: 0.95
   })
 
-  if (opts.position === 'top-right' ||
-    opts.position === 'top-left' ||
-    opts.position === 'bottom-right' ||
-    opts.position === 'bottom-left') css(box, {position: 'absolute'})
+  if (opts.position) {
+    if (opts.position === 'top-right' ||
+      opts.position === 'top-left' ||
+      opts.position === 'bottom-right' ||
+      opts.position === 'bottom-left') css(box, {position: 'absolute'})
 
-  if (opts.position === 'top-right' || opts.position === 'bottom-right') css(box, {right: 8})
-  else css(box, {left: 8})
+    if (opts.position === 'top-right' || opts.position === 'bottom-right') css(box, {right: 8})
+    else css(box, {left: 8})
 
-  if (opts.position === 'top-right' || opts.position === 'top-left') css(box, {top: 8})
-  else css(box, {bottom: 8})
+    if (opts.position === 'top-right' || opts.position === 'top-left') css(box, {top: 8})
+    else css(box, {bottom: 8})
+  }
 
   if (opts.title) require('./components/title')(box, opts.title, opts.theme)
 
@@ -105,7 +111,7 @@ function Plate (items, opts) {
   }
 
   var element
-  var state = {}
+  var state = this.state = {}
 
   items.forEach(function (item) {
     if (item.type !== 'button') {
@@ -114,7 +120,7 @@ function Plate (items, opts) {
   })
 
   items.forEach(function (item) {
-    element = components[item.type](box, item, opts.theme, id)
+    element = (components[item.type] || components.text)(box, item, opts.theme, id)
 
     element.on('initialized', function (data) {
       state[item.label] = data
@@ -122,6 +128,7 @@ function Plate (items, opts) {
 
     element.on('input', function (data) {
       state[item.label] = data
+      item.input && item.input(data, state)
       self.emit('input', state)
     })
   })

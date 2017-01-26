@@ -1,6 +1,7 @@
 var EventEmitter = require('events').EventEmitter
 var inherits = require('inherits')
 var css = require('dom-css')
+var format = require('param-case')
 
 module.exports = Text
 inherits(Text, EventEmitter)
@@ -9,11 +10,15 @@ function Text (root, opts, theme, uuid) {
   if (!(this instanceof Text)) return new Text(root, opts, theme, uuid)
   var self = this
 
-  var container = require('./container')(root, opts.label)
-  require('./label')(container, opts.label, theme)
+  var container = require('./container')(root, opts.label, opts.help)
+
+  var id = 'control-panel-text-' + format(opts.label) + '-' + uuid
+
+  require('./label')(container, opts.label, theme, id)
 
   var input = container.appendChild(document.createElement('input'))
-  input.type = 'text'
+  input.type = opts.type
+  input.id = id
   input.className = 'control-panel-text-' + uuid
   if (opts.initial) input.value = opts.initial
 
@@ -23,9 +28,8 @@ function Text (root, opts, theme, uuid) {
 
   css(input, {
     position: 'absolute',
-    paddingLeft: '6px',
-    height: '20px',
-    width: '59.5%',
+    height: '2em',
+    width: '64%',
     border: 'none',
     background: theme.background2,
     color: theme.text2,
