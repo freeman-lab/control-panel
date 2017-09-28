@@ -70,7 +70,10 @@ function Multibox (root, opts, theme, uuid) {
   }
 
   setTimeout(function () {
-    self.emit('initialized', input.checked)
+    var state = inputs.map(function (d) {
+      return d.checked
+    })
+    self.emit('initialized', state)
   })
 
   inputs.forEach(function (input) {
