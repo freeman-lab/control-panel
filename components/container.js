@@ -6,7 +6,7 @@ module.exports = function (root, label) {
   container.id = 'control-panel-' + format(label)
   css(container, {
     position: 'relative',
-    height: '25px'
+    minHeight: '25px'
   })
   return container
 }

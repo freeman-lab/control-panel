@@ -30,6 +30,7 @@ function Plate (items, opts) {
   var colorcss = fs.readFileSync(path.join(__dirname, 'components', 'styles', 'color.css'))
   var rangecss = fs.readFileSync(path.join(__dirname, 'components', 'styles', 'range.css'))
   var checkboxcss = fs.readFileSync(path.join(__dirname, 'components', 'styles', 'checkbox.css'))
+  var multiboxcss = fs.readFileSync(path.join(__dirname, 'components', 'styles', 'multibox.css'))
   var buttoncss = fs.readFileSync(path.join(__dirname, 'components', 'styles', 'button.css'))
   var intervalcss = fs.readFileSync(path.join(__dirname, 'components', 'styles', 'interval.css'))
   var selectcss = fs.readFileSync(path.join(__dirname, 'components', 'styles', 'select.css'))
@@ -39,6 +40,10 @@ function Plate (items, opts) {
     .replace(new RegExp('{{ TRACK_COLOR }}', 'g'), opts.theme.background2)
     .replace(new RegExp('{{ UUID }}', 'g'), id)
   checkboxcss = String(checkboxcss)
+    .replace(new RegExp('{{ BOX_COLOR }}', 'g'), opts.theme.background2)
+    .replace(new RegExp('{{ ICON_COLOR }}', 'g'), opts.theme.foreground1)
+    .replace(new RegExp('{{ UUID }}', 'g'), id)
+  multiboxcss = String(multiboxcss)
     .replace(new RegExp('{{ BOX_COLOR }}', 'g'), opts.theme.background2)
     .replace(new RegExp('{{ ICON_COLOR }}', 'g'), opts.theme.foreground1)
     .replace(new RegExp('{{ UUID }}', 'g'), id)
@@ -63,6 +68,7 @@ function Plate (items, opts) {
   insertcss(rangecss)
   insertcss(colorcss)
   insertcss(checkboxcss)
+  insertcss(multiboxcss)
   insertcss(buttoncss)
   insertcss(intervalcss)
   insertcss(selectcss)
@@ -99,6 +105,7 @@ function Plate (items, opts) {
     text: require('./components/text'),
     range: require('./components/range'),
     checkbox: require('./components/checkbox'),
+    multibox: require('./components/multibox'),
     color: require('./components/color'),
     interval: require('./components/interval'),
     select: require('./components/select')
@@ -125,6 +132,8 @@ function Plate (items, opts) {
       self.emit('input', state)
     })
   })
+
+  self.state = state
 
   opts.root.appendChild(box)
 }

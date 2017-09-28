@@ -17,11 +17,13 @@ var panel = control([
   {type: 'interval', label: 'neg log interval', min: -0.1, max: -10, initial: [-0.1, -1], scale: 'log', steps: 20},
   {type: 'range', label: 'one more', min: 0, max: 10},
   {type: 'select', label: 'key/value select', options: {state1: 'State One', state2: 'State Two'}, initial: 'state1'},
-  {type: 'select', label: 'array select', options: ['State One', 'State Two'], initial: 'State One'}
+  {type: 'select', label: 'array select', options: ['State One', 'State Two'], initial: 'State One'},
+  {type: 'multibox', label: 'multiple checkboxes', names: ['box1', 'box2', 'box3'], colors: ['rgb(100,220,100)', 'rgb(100,120,230)', 'rgb(210,100,190)'], initial: [true, false, true, true]}
 ],
-  {theme: 'light', title: 'example panel', position: 'top-left', width: 400}
+  {theme: 'dark', title: 'example panel', position: 'top-left', width: 400}
 )
 
 panel.on('input', function (data) {
   console.log(data)
+  console.log(panel.state)
 })

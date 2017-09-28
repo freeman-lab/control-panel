@@ -48,6 +48,7 @@ var panel = control([
   {type: 'color', label: 'my color', format: 'rgb', initial: 'rgb(10,200,0)'},
   {type: 'button', label: 'gimme an alert', action: function () {alert('hello!');}},
   {type: 'select', label: 'select one', options: ['option 1', 'option 2'], initial: 'option 1'}
+  {type: 'multibox', label: 'check many', count: 3, initial: [true, false, true]}
 ], 
   {theme: 'light', position: 'top-right'}
 )
@@ -71,6 +72,7 @@ Some types have additional properties:
 - Inputs of type `button` can specify an `action` callback. Button inputs are not reflected in the state and do not trigger an `'input'` event.
 - Inputs of type `interval` obey the same semantics as `range` inputs, except the input and ouput is a two-element array corresponding to the low/high bounds, e.g. `initial: [1, 7.5]`.
 - Inputs of type `select` can specify a list of options, either as an `Array` (in which case the value is the same as the option text) or as an object containing key/value pairs (in which case the key/value pair maps to value value/label pairs).
+- Inputs of type `multibox` can specify a number of checkboxes, either by providing a `count` or a list of `names` from which the number will be inferred, in which case the color of each box and a text name can also be provided as lists `colors` and `names`
 
 The following optional parameters can also be passed as `opts`
 - `root` root element to which to append the panel
