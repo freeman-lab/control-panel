@@ -39,7 +39,7 @@ function Multibox (root, opts, theme, uuid) {
     var input = box.appendChild(document.createElement('input'))
     input.id = 'multibox-' + opts.label + uuid + i
     input.type = 'checkbox'
-    input.checked = opts.initial
+    input.checked = opts.initial ? opts.initial[i] : true
     input.classList.add('control-panel-multibox-' + uuid)
     input.classList.add(classname)
 

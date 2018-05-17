@@ -16,7 +16,8 @@ var inputs = [
   {type: 'color', label: 'color rgb', format: 'rgb', initial: 'rgb(100,200,100)'},
   {type: 'color', label: 'color hex', format: 'hex', initial: '#30b2ba'},
   {type: 'button', label: 'gimme an alert', action: function () { window.alert('hello!') }},
-  {type: 'select', label: 'selection', options: ['option 1', 'option 2']}
+  {type: 'select', label: 'selection', options: ['option 1', 'option 2']},
+  {type: 'multibox', label: 'multiple checkboxes', names: ['box1', 'box2'], colors: ['rgb(100,120,230)', 'rgb(210,100,190)'], initial: [true, true]}
 ]
 
 control(inputs,

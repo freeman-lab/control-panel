@@ -18,7 +18,7 @@ var panel = control([
   {type: 'range', label: 'one more', min: 0, max: 10},
   {type: 'select', label: 'key/value select', options: {state1: 'State One', state2: 'State Two'}, initial: 'state1'},
   {type: 'select', label: 'array select', options: ['State One', 'State Two'], initial: 'State One'},
-  {type: 'multibox', label: 'multiple checkboxes', names: ['box1', 'box2', 'box3'], colors: ['rgb(100,220,100)', 'rgb(100,120,230)', 'rgb(210,100,190)'], initial: [true, false, true, true]}
+  {type: 'multibox', label: 'multiple checkboxes', names: ['box1', 'box2', 'box3'], colors: ['rgb(100,220,100)', 'rgb(100,120,230)', 'rgb(210,100,190)'], initial: [true, false, true]}
 ],
   {theme: 'dark', title: 'example panel', position: 'top-left', width: 400}
 )
