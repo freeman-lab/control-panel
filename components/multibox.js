@@ -1,13 +1,14 @@
 var EventEmitter = require('events').EventEmitter
 var inherits = require('inherits')
 var css = require('dom-css')
+var uuid = require('node-uuid')
 var insertcss = require('insert-css')
 
 module.exports = Multibox
 inherits(Multibox, EventEmitter)
 
-function Multibox (root, opts, theme, uuid) {
-  if (!(this instanceof Multibox)) return new Multibox(root, opts, theme, uuid)
+function Multibox (root, opts, theme, id) {
+  if (!(this instanceof Multibox)) return new Multibox(root, opts, theme, id)
   opts = opts || {}
   var self = this
 
@@ -34,18 +35,18 @@ function Multibox (root, opts, theme, uuid) {
       display: 'inline-block'
     })
 
-    var classname = 'control-panel-multibox-' + uuid + i
+    var classname = 'control-panel-multibox-' + id + uuid.v4() + i
 
     var input = box.appendChild(document.createElement('input'))
-    input.id = 'multibox-' + opts.label + uuid + i
+    input.id = 'multibox-' + opts.label + id + i
     input.type = 'checkbox'
     input.checked = opts.initial ? opts.initial[i] : true
-    input.classList.add('control-panel-multibox-' + uuid)
+    input.classList.add('control-panel-multibox-' + id)
     input.classList.add(classname)
 
     var label = box.appendChild(document.createElement('label'))
-    label.htmlFor = 'multibox-' + opts.label + uuid + i
-    label.className = 'control-panel-multibox-' + uuid
+    label.htmlFor = 'multibox-' + opts.label + id + i
+    label.className = 'control-panel-multibox-' + id
 
     var color = opts.colors ? opts.colors[i] : theme.foreground1
     var tmpcss = `input[type=checkbox]:checked.${classname}  + label:before {
