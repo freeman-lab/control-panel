@@ -12,8 +12,6 @@ function Multibox (root, opts, theme, id) {
   opts = opts || {}
   var self = this
 
-  console.log(opts)
-
   var container = require('./container')(root, opts.label)
   require('./label')(container, opts.label, theme)
 
