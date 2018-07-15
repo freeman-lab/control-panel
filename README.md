@@ -96,7 +96,7 @@ Access the current value of any input via its label, i.e. if you made the input
 ```javascript
 {type: 'checkbox', label: 'my checkbox', initial: true}
 ```
-access its current valuye using
+access its current value using
 
 ```javascript
 panel.state['my checkbox']
