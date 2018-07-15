@@ -89,6 +89,19 @@ This event is emitted every time any one of the inputs change. The callback argu
 {'my checkbox': false, 'my range': 75}
 ```
 
+#### `panel.state`
+
+Access the current value of any input via its label, i.e. if you made the input
+
+```javascript
+{type: 'checkbox', label: 'my checkbox', initial: true}
+```
+access its current valuye using
+
+```javascript
+panel.state['my checkbox']
+```
+
 #### see also
 
 - [oui](https://github.com/wearekuva/oui)
