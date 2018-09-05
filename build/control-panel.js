@@ -1,25 +1,25 @@
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.control = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var EventEmitter = require('events').EventEmitter
-var inherits = require('inherits')
-var css = require('dom-css')
+var EventEmitter = require('events').EventEmitter;
+var inherits = require('inherits');
+var css = require('dom-css');
 
-module.exports = Button
-inherits(Button, EventEmitter)
+module.exports = Button;
+inherits(Button, EventEmitter);
 
-function Button (root, opts, theme, uuid) {
-  if (!(this instanceof Button)) return new Button(root, opts, theme, uuid)
+function Button(root, opts, theme, uuid) {
+  if (!(this instanceof Button)) return new Button(root, opts, theme, uuid);
 
-  var container = require('./container')(root, opts.label)
-  require('./label')(container, '', theme)
+  var container = require('./container')(root, opts.label);
+  require('./label')(container, '', theme);
 
-  var input = container.appendChild(document.createElement('button'))
-  input.className = 'control-panel-button-' + uuid
+  var input = container.appendChild(document.createElement('button'));
+  input.className = 'control-panel-button-' + uuid;
 
   input.onfocus = function () {
-    css(input, {outline: 'none'})
-  }
+    css(input, { outline: 'none' });
+  };
 
-  input.textContent = opts.label
+  input.textContent = opts.label;
 
   css(input, {
     position: 'absolute',
@@ -30,87 +30,85 @@ function Button (root, opts, theme, uuid) {
     cursor: 'pointer',
     right: 0,
     fontFamily: 'inherit'
-  })
+  });
 
-  input.addEventListener('click', opts.action)
+  input.addEventListener('click', opts.action);
 }
-
 },{"./container":4,"./label":6,"dom-css":83,"events":60,"inherits":120}],2:[function(require,module,exports){
-var EventEmitter = require('events').EventEmitter
-var inherits = require('inherits')
+var EventEmitter = require('events').EventEmitter;
+var inherits = require('inherits');
 
-module.exports = Checkbox
-inherits(Checkbox, EventEmitter)
+module.exports = Checkbox;
+inherits(Checkbox, EventEmitter);
 
-function Checkbox (root, opts, theme, uuid) {
-  if (!(this instanceof Checkbox)) return new Checkbox(root, opts, theme, uuid)
-  opts = opts || {}
-  var self = this
+function Checkbox(root, opts, theme, uuid) {
+  if (!(this instanceof Checkbox)) return new Checkbox(root, opts, theme, uuid);
+  opts = opts || {};
+  var self = this;
 
-  var container = require('./container')(root, opts.label)
-  require('./label')(container, opts.label, theme)
+  var container = require('./container')(root, opts.label);
+  require('./label')(container, opts.label, theme);
 
-  var input = container.appendChild(document.createElement('input'))
-  input.id = 'checkbox-' + opts.label + uuid
-  input.type = 'checkbox'
-  input.checked = opts.initial
-  input.className = 'control-panel-checkbox-' + uuid
+  var input = container.appendChild(document.createElement('input'));
+  input.id = 'checkbox-' + opts.label + uuid;
+  input.type = 'checkbox';
+  input.checked = opts.initial;
+  input.className = 'control-panel-checkbox-' + uuid;
 
-  var label = container.appendChild(document.createElement('label'))
-  label.htmlFor = 'checkbox-' + opts.label + uuid
-  label.className = 'control-panel-checkbox-' + uuid
+  var label = container.appendChild(document.createElement('label'));
+  label.htmlFor = 'checkbox-' + opts.label + uuid;
+  label.className = 'control-panel-checkbox-' + uuid;
 
   setTimeout(function () {
-    self.emit('initialized', input.checked)
-  })
+    self.emit('initialized', input.checked);
+  });
 
   input.onchange = function (data) {
-    self.emit('input', data.target.checked)
-  }
+    self.emit('input', data.target.checked);
+  };
 }
-
 },{"./container":4,"./label":6,"events":60,"inherits":120}],3:[function(require,module,exports){
-var EventEmitter = require('events').EventEmitter
-var ColorPicker = require('simple-color-picker')
-var inherits = require('inherits')
-var css = require('dom-css')
-var tinycolor = require('tinycolor2')
+var EventEmitter = require('events').EventEmitter;
+var ColorPicker = require('simple-color-picker');
+var inherits = require('inherits');
+var css = require('dom-css');
+var tinycolor = require('tinycolor2');
 
-module.exports = Color
-inherits(Color, EventEmitter)
+module.exports = Color;
+inherits(Color, EventEmitter);
 
-function Color (root, opts, theme, uuid) {
-  if (!(this instanceof Color)) return new Color(root, opts, theme, uuid)
-  opts = opts || {}
-  opts.format = opts.format || 'rgb'
-  opts.initial = opts.initial || '#123456'
-  var self = this
+function Color(root, opts, theme, uuid) {
+  if (!(this instanceof Color)) return new Color(root, opts, theme, uuid);
+  opts = opts || {};
+  opts.format = opts.format || 'rgb';
+  opts.initial = opts.initial || '#123456';
+  var self = this;
 
-  var container = require('./container')(root, opts.label)
-  require('./label')(container, opts.label, theme)
+  var container = require('./container')(root, opts.label);
+  require('./label')(container, opts.label, theme);
 
-  var icon = container.appendChild(document.createElement('span'))
-  icon.className = 'control-panel-color-' + uuid
+  var icon = container.appendChild(document.createElement('span'));
+  icon.className = 'control-panel-color-' + uuid;
 
-  var value = require('./value')(container, '', theme, '46%')
+  var value = require('./value')(container, '', theme, '46%');
 
   icon.onmouseover = function () {
-    picker.$el.style.display = ''
-  }
+    picker.$el.style.display = '';
+  };
 
-  var initial = opts.initial
+  var initial = opts.initial;
   switch (opts.format) {
     case 'rgb':
-      initial = tinycolor(initial).toHexString()
-      break
+      initial = tinycolor(initial).toHexString();
+      break;
     case 'hex':
-      initial = tinycolor(initial).toHexString()
-      break
+      initial = tinycolor(initial).toHexString();
+      break;
     case 'array':
-      initial = tinycolor.fromRatio({r: initial[0], g: initial[1], b: initial[2]}).toHexString()
-      break
+      initial = tinycolor.fromRatio({ r: initial[0], g: initial[1], b: initial[2] }).toHexString();
+      break;
     default:
-      break
+      break;
   }
 
   var picker = new ColorPicker({
@@ -119,13 +117,13 @@ function Color (root, opts, theme, uuid) {
     background: theme.background1,
     width: 125,
     height: 100
-  })
+  });
 
   css(picker.$el, {
     marginTop: '20px',
     display: 'none',
     position: 'absolute'
-  })
+  });
 
   css(icon, {
     position: 'relative',
@@ -133,283 +131,276 @@ function Color (root, opts, theme, uuid) {
     width: '12.5%',
     height: '20px',
     backgroundColor: picker.getHexString()
-  })
+  });
 
   icon.onmouseout = function (e) {
-    picker.$el.style.display = 'none'
-  }
+    picker.$el.style.display = 'none';
+  };
 
   setTimeout(function () {
-    self.emit('initialized', initial)
-  })
+    self.emit('initialized', initial);
+  });
 
   picker.onChange(function (hex) {
-    value.innerHTML = format(hex)
-    css(icon, {backgroundColor: hex})
-    self.emit('input', format(hex))
-  })
+    value.innerHTML = format(hex);
+    css(icon, { backgroundColor: hex });
+    self.emit('input', format(hex));
+  });
 
-  function format (hex) {
+  function format(hex) {
     switch (opts.format) {
       case 'rgb':
-        return tinycolor(hex).toRgbString()
+        return tinycolor(hex).toRgbString();
       case 'hex':
-        return tinycolor(hex).toHexString()
+        return tinycolor(hex).toHexString();
       case 'array':
-        var rgb = tinycolor(hex).toRgb()
+        var rgb = tinycolor(hex).toRgb();
         return [rgb.r / 255, rgb.g / 255, rgb.b / 255].map(function (x) {
-          return x.toFixed(2)
-        })
+          return x.toFixed(2);
+        });
       default:
-        return hex
+        return hex;
     }
   }
 }
-
 },{"./container":4,"./label":6,"./value":12,"dom-css":83,"events":60,"inherits":120,"simple-color-picker":196,"tinycolor2":200}],4:[function(require,module,exports){
-var css = require('dom-css')
-var format = require('param-case')
+var css = require('dom-css');
+var format = require('param-case');
 
 module.exports = function (root, label) {
-  var container = root.appendChild(document.createElement('div'))
-  container.id = 'control-panel-' + format(label)
+  var container = root.appendChild(document.createElement('div'));
+  container.id = 'control-panel-' + format(label);
   css(container, {
     position: 'relative',
     minHeight: '25px'
-  })
-  return container
-}
-
+  });
+  return container;
+};
 },{"dom-css":83,"param-case":143}],5:[function(require,module,exports){
-var EventEmitter = require('events').EventEmitter
-var inherits = require('inherits')
-var isnumeric = require('is-numeric')
-var css = require('dom-css')
+var EventEmitter = require('events').EventEmitter;
+var inherits = require('inherits');
+var isnumeric = require('is-numeric');
+var css = require('dom-css');
 
-module.exports = Range
-inherits(Range, EventEmitter)
+module.exports = Range;
+inherits(Range, EventEmitter);
 
-function clamp (x, min, max) {
-  return Math.min(Math.max(x, min), max)
+function clamp(x, min, max) {
+  return Math.min(Math.max(x, min), max);
 }
 
-function Range (root, opts, theme, uuid) {
-  if (!(this instanceof Range)) return new Range(root, opts, theme, uuid)
-  var self = this
-  var scaleValue, scaleValueInverse, logmin, logmax, logsign, panel, input, handle
+function Range(root, opts, theme, uuid) {
+  if (!(this instanceof Range)) return new Range(root, opts, theme, uuid);
+  var self = this;
+  var scaleValue, scaleValueInverse, logmin, logmax, logsign, panel, input, handle;
 
-  var container = require('./container')(root, opts.label)
-  require('./label')(container, opts.label, theme)
+  var container = require('./container')(root, opts.label);
+  require('./label')(container, opts.label, theme);
 
   if (!!opts.step && !!opts.steps) {
-    throw new Error('Cannot specify both step and steps. Got step = ' + opts.step + ', steps = ', opts.steps)
+    throw new Error('Cannot specify both step and steps. Got step = ' + opts.step + ', steps = ', opts.steps);
   }
 
   setTimeout(function () {
-    panel = document.getElementById('control-panel-' + uuid)
-  })
+    panel = document.getElementById('control-panel-' + uuid);
+  });
 
-  input = container.appendChild(document.createElement('span'))
-  input.className = 'control-panel-interval-' + uuid
+  input = container.appendChild(document.createElement('span'));
+  input.className = 'control-panel-interval-' + uuid;
 
-  handle = document.createElement('span')
-  handle.className = 'control-panel-interval-handle'
-  input.appendChild(handle)
+  handle = document.createElement('span');
+  handle.className = 'control-panel-interval-handle';
+  input.appendChild(handle);
 
   // Create scale functions for converting to/from the desired scale:
   if (opts.scale === 'log') {
     scaleValue = function (x) {
-      return logsign * Math.exp(Math.log(logmin) + (Math.log(logmax) - Math.log(logmin)) * x / 100)
-    }
+      return logsign * Math.exp(Math.log(logmin) + (Math.log(logmax) - Math.log(logmin)) * x / 100);
+    };
     scaleValueInverse = function (y) {
-      return (Math.log(y * logsign) - Math.log(logmin)) * 100 / (Math.log(logmax) - Math.log(logmin))
-    }
+      return (Math.log(y * logsign) - Math.log(logmin)) * 100 / (Math.log(logmax) - Math.log(logmin));
+    };
   } else {
-    scaleValue = scaleValueInverse = function (x) { return x }
+    scaleValue = scaleValueInverse = function (x) {
+      return x;
+    };
   }
 
   if (!Array.isArray(opts.initial)) {
-    opts.initial = []
+    opts.initial = [];
   }
 
   if (opts.scale === 'log') {
     // Get options or set defaults:
-    opts.max = (isnumeric(opts.max)) ? opts.max : 100
-    opts.min = (isnumeric(opts.min)) ? opts.min : 0.1
+    opts.max = isnumeric(opts.max) ? opts.max : 100;
+    opts.min = isnumeric(opts.min) ? opts.min : 0.1;
 
     // Check if all signs are valid:
     if (opts.min * opts.max <= 0) {
-      throw new Error('Log range min/max must have the same sign and not equal zero. Got min = ' + opts.min + ', max = ' + opts.max)
+      throw new Error('Log range min/max must have the same sign and not equal zero. Got min = ' + opts.min + ', max = ' + opts.max);
     } else {
       // Pull these into separate variables so that opts can define the *slider* mapping
-      logmin = opts.min
-      logmax = opts.max
-      logsign = opts.min > 0 ? 1 : -1
+      logmin = opts.min;
+      logmax = opts.max;
+      logsign = opts.min > 0 ? 1 : -1;
 
       // Got the sign so force these positive:
-      logmin = Math.abs(logmin)
-      logmax = Math.abs(logmax)
+      logmin = Math.abs(logmin);
+      logmax = Math.abs(logmax);
 
       // These are now simply 0-100 to which we map the log range:
-      opts.min = 0
-      opts.max = 100
+      opts.min = 0;
+      opts.max = 100;
 
       // Step is invalid for a log range:
       if (isnumeric(opts.step)) {
-        throw new Error('Log may only use steps (integer number of steps), not a step value. Got step =' + opts.step)
+        throw new Error('Log may only use steps (integer number of steps), not a step value. Got step =' + opts.step);
       }
       // Default step is simply 1 in linear slider space:
-      opts.step = 1
+      opts.step = 1;
     }
 
-    opts.initial = [
-      scaleValueInverse(isnumeric(opts.initial[0]) ? opts.initial[0] : scaleValue(opts.min + (opts.max - opts.min) * 0.25)),
-      scaleValueInverse(isnumeric(opts.initial[1]) ? opts.initial[1] : scaleValue(opts.min + (opts.max - opts.min) * 0.75))
-    ]
+    opts.initial = [scaleValueInverse(isnumeric(opts.initial[0]) ? opts.initial[0] : scaleValue(opts.min + (opts.max - opts.min) * 0.25)), scaleValueInverse(isnumeric(opts.initial[1]) ? opts.initial[1] : scaleValue(opts.min + (opts.max - opts.min) * 0.75))];
 
     if (scaleValue(opts.initial[0]) * scaleValue(opts.max) <= 0 || scaleValue(opts.initial[1]) * scaleValue(opts.max) <= 0) {
-      throw new Error('Log range initial value must have the same sign as min/max and must not equal zero. Got initial value = [' + scaleValue(opts.initial[0]) + ', ' + scaleValue(opts.initial[1]) + ']')
+      throw new Error('Log range initial value must have the same sign as min/max and must not equal zero. Got initial value = [' + scaleValue(opts.initial[0]) + ', ' + scaleValue(opts.initial[1]) + ']');
     }
   } else {
     // If linear, this is much simpler:
-    opts.max = (isnumeric(opts.max)) ? opts.max : 100
-    opts.min = (isnumeric(opts.min)) ? opts.min : 0
-    opts.step = (isnumeric(opts.step)) ? opts.step : (opts.max - opts.min) / 100
+    opts.max = isnumeric(opts.max) ? opts.max : 100;
+    opts.min = isnumeric(opts.min) ? opts.min : 0;
+    opts.step = isnumeric(opts.step) ? opts.step : (opts.max - opts.min) / 100;
 
-    opts.initial = [
-      isnumeric(opts.initial[0]) ? opts.initial[0] : (opts.min + opts.max) * 0.25,
-      isnumeric(opts.initial[1]) ? opts.initial[1] : (opts.min + opts.max) * 0.75
-    ]
+    opts.initial = [isnumeric(opts.initial[0]) ? opts.initial[0] : (opts.min + opts.max) * 0.25, isnumeric(opts.initial[1]) ? opts.initial[1] : (opts.min + opts.max) * 0.75];
   }
 
   // If we got a number of steps, use that instead:
   if (isnumeric(opts.steps)) {
-    opts.step = isnumeric(opts.steps) ? (opts.max - opts.min) / opts.steps : opts.step
+    opts.step = isnumeric(opts.steps) ? (opts.max - opts.min) / opts.steps : opts.step;
   }
 
   // Quantize the initial value to the requested step:
-  opts.initial[0] = opts.min + opts.step * Math.round((opts.initial[0] - opts.min) / opts.step)
-  opts.initial[1] = opts.min + opts.step * Math.round((opts.initial[1] - opts.min) / opts.step)
+  opts.initial[0] = opts.min + opts.step * Math.round((opts.initial[0] - opts.min) / opts.step);
+  opts.initial[1] = opts.min + opts.step * Math.round((opts.initial[1] - opts.min) / opts.step);
 
-  var value = opts.initial
+  var value = opts.initial;
 
-  function setHandleCSS () {
+  function setHandleCSS() {
     css(handle, {
-      left: ((value[0] - opts.min) / (opts.max - opts.min) * 100) + '%',
-      right: (100 - (value[1] - opts.min) / (opts.max - opts.min) * 100) + '%'
-    })
+      left: (value[0] - opts.min) / (opts.max - opts.min) * 100 + '%',
+      right: 100 - (value[1] - opts.min) / (opts.max - opts.min) * 100 + '%'
+    });
   }
 
   // Initialize CSS:
-  setHandleCSS()
+  setHandleCSS();
 
   // Display the values:
-  var lValue = require('./value')(container, scaleValue(opts.initial[0]), theme, '11%', true)
-  var rValue = require('./value')(container, scaleValue(opts.initial[1]), theme, '11%')
+  var lValue = require('./value')(container, scaleValue(opts.initial[0]), theme, '11%', true);
+  var rValue = require('./value')(container, scaleValue(opts.initial[1]), theme, '11%');
 
   // An index to track what's being dragged:
-  var activeIndex = -1
+  var activeIndex = -1;
 
-  function mouseX (ev) {
+  function mouseX(ev) {
     // Get mouse position in page coords relative to the container:
-    return ev.pageX - input.getBoundingClientRect().left
+    return ev.pageX - input.getBoundingClientRect().left;
   }
 
-  function setActiveValue (fraction) {
+  function setActiveValue(fraction) {
     if (activeIndex === -1) {
-      return
+      return;
     }
 
     // Get the position in the range [0, 1]:
-    var lofrac = (value[0] - opts.min) / (opts.max - opts.min)
-    var hifrac = (value[1] - opts.min) / (opts.max - opts.min)
+    var lofrac = (value[0] - opts.min) / (opts.max - opts.min);
+    var hifrac = (value[1] - opts.min) / (opts.max - opts.min);
 
     // Clip against the other bound:
     if (activeIndex === 0) {
-      fraction = Math.min(hifrac, fraction)
+      fraction = Math.min(hifrac, fraction);
     } else {
-      fraction = Math.max(lofrac, fraction)
+      fraction = Math.max(lofrac, fraction);
     }
 
     // Compute and quantize the new value:
-    var newValue = opts.min + Math.round((opts.max - opts.min) * fraction / opts.step) * opts.step
+    var newValue = opts.min + Math.round((opts.max - opts.min) * fraction / opts.step) * opts.step;
 
     // Update value, in linearized coords:
-    value[activeIndex] = newValue
+    value[activeIndex] = newValue;
 
     // Update and send the event:
-    setHandleCSS()
-    input.oninput()
+    setHandleCSS();
+    input.oninput();
   }
 
   var mousemoveListener = function (ev) {
-    var fraction = clamp(mouseX(ev) / input.offsetWidth, 0, 1)
+    var fraction = clamp(mouseX(ev) / input.offsetWidth, 0, 1);
 
-    setActiveValue(fraction)
-  }
+    setActiveValue(fraction);
+  };
 
   var mouseupListener = function (ev) {
-    panel.classList.remove('control-panel-interval-dragging')
-    var fraction = clamp(mouseX(ev) / input.offsetWidth, 0, 1)
+    panel.classList.remove('control-panel-interval-dragging');
+    var fraction = clamp(mouseX(ev) / input.offsetWidth, 0, 1);
 
-    setActiveValue(fraction)
+    setActiveValue(fraction);
 
-    document.removeEventListener('mousemove', mousemoveListener)
-    document.removeEventListener('mouseup', mouseupListener)
+    document.removeEventListener('mousemove', mousemoveListener);
+    document.removeEventListener('mouseup', mouseupListener);
 
-    activeIndex = -1
-  }
+    activeIndex = -1;
+  };
 
   input.addEventListener('mousedown', function (ev) {
     // Tweak control to make dragging experience a little nicer:
-    panel.classList.add('control-panel-interval-dragging')
+    panel.classList.add('control-panel-interval-dragging');
 
     // Get mouse position fraction:
-    var fraction = clamp(mouseX(ev) / input.offsetWidth, 0, 1)
+    var fraction = clamp(mouseX(ev) / input.offsetWidth, 0, 1);
 
     // Get the current fraction of position --> [0, 1]:
-    var lofrac = (value[0] - opts.min) / (opts.max - opts.min)
-    var hifrac = (value[1] - opts.min) / (opts.max - opts.min)
+    var lofrac = (value[0] - opts.min) / (opts.max - opts.min);
+    var hifrac = (value[1] - opts.min) / (opts.max - opts.min);
 
     // This is just for making decisions, so perturb it ever
     // so slightly just in case the bounds are numerically equal:
-    lofrac -= Math.abs(opts.max - opts.min) * 1e-15
-    hifrac += Math.abs(opts.max - opts.min) * 1e-15
+    lofrac -= Math.abs(opts.max - opts.min) * 1e-15;
+    hifrac += Math.abs(opts.max - opts.min) * 1e-15;
 
     // Figure out which is closer:
-    var lodiff = Math.abs(lofrac - fraction)
-    var hidiff = Math.abs(hifrac - fraction)
+    var lodiff = Math.abs(lofrac - fraction);
+    var hidiff = Math.abs(hifrac - fraction);
 
-    activeIndex = lodiff < hidiff ? 0 : 1
+    activeIndex = lodiff < hidiff ? 0 : 1;
 
     // Attach this to *document* so that we can still drag if the mouse
     // passes outside the container:
-    document.addEventListener('mousemove', mousemoveListener)
-    document.addEventListener('mouseup', mouseupListener)
-  })
+    document.addEventListener('mousemove', mousemoveListener);
+    document.addEventListener('mouseup', mouseupListener);
+  });
 
   setTimeout(function () {
-    var scaledLValue = scaleValue(value[0])
-    var scaledRValue = scaleValue(value[1])
-    lValue.innerHTML = scaledLValue
-    rValue.innerHTML = scaledRValue
-    self.emit('initialized', [scaledLValue, scaledRValue])
-  })
+    var scaledLValue = scaleValue(value[0]);
+    var scaledRValue = scaleValue(value[1]);
+    lValue.innerHTML = scaledLValue;
+    rValue.innerHTML = scaledRValue;
+    self.emit('initialized', [scaledLValue, scaledRValue]);
+  });
 
   input.oninput = function () {
-    var scaledLValue = scaleValue(value[0])
-    var scaledRValue = scaleValue(value[1])
-    lValue.innerHTML = scaledLValue
-    rValue.innerHTML = scaledRValue
-    self.emit('input', [scaledLValue, scaledRValue])
-  }
+    var scaledLValue = scaleValue(value[0]);
+    var scaledRValue = scaleValue(value[1]);
+    lValue.innerHTML = scaledLValue;
+    rValue.innerHTML = scaledRValue;
+    self.emit('input', [scaledLValue, scaledRValue]);
+  };
 }
-
 },{"./container":4,"./label":6,"./value":12,"dom-css":83,"events":60,"inherits":120,"is-numeric":124}],6:[function(require,module,exports){
-var css = require('dom-css')
+var css = require('dom-css');
 
 module.exports = function (root, text, theme) {
-  var background = root.appendChild(document.createElement('div'))
+  var background = root.appendChild(document.createElement('div'));
   css(background, {
     left: 0,
     width: '36%',
@@ -417,76 +408,73 @@ module.exports = function (root, text, theme) {
     height: '20px',
     paddingRight: '2%',
     verticalAlign: 'top'
-  })
+  });
 
-  var label = background.appendChild(document.createElement('span'))
-  label.innerHTML = text
+  var label = background.appendChild(document.createElement('span'));
+  label.innerHTML = text;
   css(label, {
     color: theme.text1,
     display: 'inline-block',
     verticalAlign: 'sub'
-  })
-  return label
-}
-
+  });
+  return label;
+};
 },{"dom-css":83}],7:[function(require,module,exports){
-var EventEmitter = require('events').EventEmitter
-var inherits = require('inherits')
-var css = require('dom-css')
-var uuid = require('node-uuid')
-var insertcss = require('insert-css')
+var EventEmitter = require('events').EventEmitter;
+var inherits = require('inherits');
+var css = require('dom-css');
+var uuid = require('node-uuid');
+var insertcss = require('insert-css');
 
-module.exports = Multibox
-inherits(Multibox, EventEmitter)
+module.exports = Multibox;
+inherits(Multibox, EventEmitter);
 
-function Multibox (root, opts, theme, id) {
-  if (!(this instanceof Multibox)) return new Multibox(root, opts, theme, id)
-  opts = opts || {}
-  var self = this
+function Multibox(root, opts, theme, id) {
+  if (!(this instanceof Multibox)) return new Multibox(root, opts, theme, id);
+  opts = opts || {};
+  var self = this;
 
-  var container = require('./container')(root, opts.label)
-  require('./label')(container, opts.label, theme)
+  var container = require('./container')(root, opts.label);
+  require('./label')(container, opts.label, theme);
 
-  var boxes = container.appendChild(document.createElement('div'))
+  var boxes = container.appendChild(document.createElement('div'));
   css(boxes, {
     position: 'relative',
     width: '60%',
     display: 'inline-block',
     paddingBottom: '7px'
-  })
+  });
 
-  if (!opts.count) opts.count = opts.names.length
-  var inputs = []
+  if (!opts.count) opts.count = opts.names.length;
+  var inputs = [];
 
-  var i =0 
-  for (i;i<opts.count;i++) {
-    var box = boxes.appendChild(document.createElement('span'))
+  var i = 0;
+  for (i; i < opts.count; i++) {
+    var box = boxes.appendChild(document.createElement('span'));
     css(box, {
       display: 'inline-block'
-    })
+    });
 
-    var classname = 'control-panel-multibox-' + id + uuid.v4() + i
+    var classname = 'control-panel-multibox-' + id + uuid.v4() + i;
 
-    var input = box.appendChild(document.createElement('input'))
-    input.id = 'multibox-' + opts.label + id + i
-    input.type = 'checkbox'
-    input.checked = opts.initial ? opts.initial[i] : true
-    input.classList.add('control-panel-multibox-' + id)
-    input.classList.add(classname)
+    var input = box.appendChild(document.createElement('input'));
+    input.id = 'multibox-' + opts.label + id + i;
+    input.type = 'checkbox';
+    input.checked = opts.initial ? opts.initial[i] : true;
+    input.classList.add('control-panel-multibox-' + id);
+    input.classList.add(classname);
 
-    var label = box.appendChild(document.createElement('label'))
-    label.htmlFor = 'multibox-' + opts.label + id + i
-    label.className = 'control-panel-multibox-' + id
+    var label = box.appendChild(document.createElement('label'));
+    label.htmlFor = 'multibox-' + opts.label + id + i;
+    label.className = 'control-panel-multibox-' + id;
 
-    var color = opts.colors ? opts.colors[i] : theme.foreground1
-    var tmpcss = `input[type=checkbox]:checked.${classname}  + label:before {
-      background-color: ${color};
-    }`
-    insertcss(tmpcss)
+    var color = opts.colors ? opts.colors[i] : theme.foreground1;
+    var tmpcss = 'input[type=checkbox]:checked.' + classname + '  + label:before {\n      background-color: ' + color + ';\n    }';
+    insertcss(tmpcss);
 
     if (opts.names) {
-      var name = box.appendChild(document.createElement('span'))
-      name.innerHTML = opts.names[i]
+      var name = box.appendChild(document.createElement('span'));
+      name.innerHTML = opts.names[i];
       css(name, {
         backgroundColor: theme.background2,
         paddingRight: '7px',
@@ -494,224 +482,223 @@ function Multibox (root, opts, theme, id) {
         padding: '2px',
         marginRight: '8px',
         color: theme.text2
-      })
+      });
     }
 
-    inputs.push(input)
+    inputs.push(input);
   }
 
   setTimeout(function () {
     var state = inputs.map(function (d) {
-      return d.checked
-    })
-    self.emit('initialized', state)
-  })
+      return d.checked;
+    });
+    self.emit('initialized', state);
+  });
 
   inputs.forEach(function (input) {
     input.onchange = function (data) {
       var state = inputs.map(function (d) {
-        return d.checked
-      })
-      self.emit('input', state)
-    }
-  })
+        return d.checked;
+      });
+      self.emit('input', state);
+    };
+  });
 }
-
 },{"./container":4,"./label":6,"dom-css":83,"events":60,"inherits":120,"insert-css":121,"node-uuid":142}],8:[function(require,module,exports){
-var EventEmitter = require('events').EventEmitter
-var inherits = require('inherits')
-var isnumeric = require('is-numeric')
-var css = require('dom-css')
+var EventEmitter = require('events').EventEmitter;
+var inherits = require('inherits');
+var isnumeric = require('is-numeric');
+var css = require('dom-css');
 
-module.exports = Range
-inherits(Range, EventEmitter)
+module.exports = Range;
+inherits(Range, EventEmitter);
 
-function Range (root, opts, theme, uuid) {
-  if (!(this instanceof Range)) return new Range(root, opts, theme, uuid)
-  var self = this
-  var scaleValue, scaleValueInverse, logmin, logmax, logsign
+function Range(root, opts, theme, uuid) {
+  if (!(this instanceof Range)) return new Range(root, opts, theme, uuid);
+  var self = this;
+  var scaleValue, scaleValueInverse, logmin, logmax, logsign;
 
-  var container = require('./container')(root, opts.label)
-  require('./label')(container, opts.label, theme)
+  var container = require('./container')(root, opts.label);
+  require('./label')(container, opts.label, theme);
 
   if (!!opts.step && !!opts.steps) {
-    throw new Error('Cannot specify both step and steps. Got step = ' + opts.step + ', steps = ', opts.steps)
+    throw new Error('Cannot specify both step and steps. Got step = ' + opts.step + ', steps = ', opts.steps);
   }
 
-  var input = container.appendChild(document.createElement('input'))
-  input.type = 'range'
-  input.className = 'control-panel-range-' + uuid
+  var input = container.appendChild(document.createElement('input'));
+  input.type = 'range';
+  input.className = 'control-panel-range-' + uuid;
 
   // Create scale functions for converting to/from the desired scale:
   if (opts.scale === 'log') {
     scaleValue = function (x) {
-      return logsign * Math.exp(Math.log(logmin) + (Math.log(logmax) - Math.log(logmin)) * x / 100)
-    }
+      return logsign * Math.exp(Math.log(logmin) + (Math.log(logmax) - Math.log(logmin)) * x / 100);
+    };
     scaleValueInverse = function (y) {
-      return (Math.log(y * logsign) - Math.log(logmin)) * 100 / (Math.log(logmax) - Math.log(logmin))
-    }
+      return (Math.log(y * logsign) - Math.log(logmin)) * 100 / (Math.log(logmax) - Math.log(logmin));
+    };
   } else {
-    scaleValue = scaleValueInverse = function (x) { return x }
+    scaleValue = scaleValueInverse = function (x) {
+      return x;
+    };
   }
 
   // Get initial value:
   if (opts.scale === 'log') {
     // Get options or set defaults:
-    opts.max = (isnumeric(opts.max)) ? opts.max : 100
-    opts.min = (isnumeric(opts.min)) ? opts.min : 0.1
+    opts.max = isnumeric(opts.max) ? opts.max : 100;
+    opts.min = isnumeric(opts.min) ? opts.min : 0.1;
 
     // Check if all signs are valid:
     if (opts.min * opts.max <= 0) {
-      throw new Error('Log range min/max must have the same sign and not equal zero. Got min = ' + opts.min + ', max = ' + opts.max)
+      throw new Error('Log range min/max must have the same sign and not equal zero. Got min = ' + opts.min + ', max = ' + opts.max);
     } else {
       // Pull these into separate variables so that opts can define the *slider* mapping
-      logmin = opts.min
-      logmax = opts.max
-      logsign = opts.min > 0 ? 1 : -1
+      logmin = opts.min;
+      logmax = opts.max;
+      logsign = opts.min > 0 ? 1 : -1;
 
       // Got the sign so force these positive:
-      logmin = Math.abs(logmin)
-      logmax = Math.abs(logmax)
+      logmin = Math.abs(logmin);
+      logmax = Math.abs(logmax);
 
       // These are now simply 0-100 to which we map the log range:
-      opts.min = 0
-      opts.max = 100
+      opts.min = 0;
+      opts.max = 100;
 
       // Step is invalid for a log range:
       if (isnumeric(opts.step)) {
-        throw new Error('Log may only use steps (integer number of steps), not a step value. Got step =' + opts.step)
+        throw new Error('Log may only use steps (integer number of steps), not a step value. Got step =' + opts.step);
       }
       // Default step is simply 1 in linear slider space:
-      opts.step = 1
+      opts.step = 1;
     }
 
-    opts.initial = scaleValueInverse(isnumeric(opts.initial) ? opts.initial : scaleValue((opts.min + opts.max) * 0.5))
+    opts.initial = scaleValueInverse(isnumeric(opts.initial) ? opts.initial : scaleValue((opts.min + opts.max) * 0.5));
 
     if (opts.initial * scaleValueInverse(opts.max) <= 0) {
-      throw new Error('Log range initial value must have the same sign as min/max and must not equal zero. Got initial value = ' + opts.initial)
+      throw new Error('Log range initial value must have the same sign as min/max and must not equal zero. Got initial value = ' + opts.initial);
     }
   } else {
     // If linear, this is much simpler:
-    opts.max = (isnumeric(opts.max)) ? opts.max : 100
-    opts.min = (isnumeric(opts.min)) ? opts.min : 0
-    opts.step = (isnumeric(opts.step)) ? opts.step : (opts.max - opts.min) / 100
+    opts.max = isnumeric(opts.max) ? opts.max : 100;
+    opts.min = isnumeric(opts.min) ? opts.min : 0;
+    opts.step = isnumeric(opts.step) ? opts.step : (opts.max - opts.min) / 100;
 
-    opts.initial = isnumeric(opts.initial) ? opts.initial : (opts.min + opts.max) * 0.5
+    opts.initial = isnumeric(opts.initial) ? opts.initial : (opts.min + opts.max) * 0.5;
   }
 
   // If we got a number of steps, use that instead:
   if (isnumeric(opts.steps)) {
-    opts.step = isnumeric(opts.steps) ? (opts.max - opts.min) / opts.steps : opts.step
+    opts.step = isnumeric(opts.steps) ? (opts.max - opts.min) / opts.steps : opts.step;
   }
 
   // Quantize the initial value to the requested step:
-  var initialStep = Math.round((opts.initial - opts.min) / opts.step)
-  opts.initial = opts.min + opts.step * initialStep
+  var initialStep = Math.round((opts.initial - opts.min) / opts.step);
+  opts.initial = opts.min + opts.step * initialStep;
 
   // Set value on the input itself:
-  input.min = opts.min
-  input.max = opts.max
-  input.step = opts.step
-  input.value = opts.initial
+  input.min = opts.min;
+  input.max = opts.max;
+  input.step = opts.step;
+  input.value = opts.initial;
 
   css(input, {
     width: '47.5%'
-  })
+  });
 
-  var value = require('./value')(container, scaleValue(opts.initial), theme, '11%')
+  var value = require('./value')(container, scaleValue(opts.initial), theme, '11%');
 
   setTimeout(function () {
-    self.emit('initialized', parseFloat(input.value))
-  })
+    self.emit('initialized', parseFloat(input.value));
+  });
 
   input.oninput = function (data) {
-    var scaledValue = scaleValue(parseFloat(data.target.value))
-    value.innerHTML = scaledValue
-    self.emit('input', scaledValue)
-  }
+    var scaledValue = scaleValue(parseFloat(data.target.value));
+    value.innerHTML = scaledValue;
+    self.emit('input', scaledValue);
+  };
 }
-
 },{"./container":4,"./label":6,"./value":12,"dom-css":83,"events":60,"inherits":120,"is-numeric":124}],9:[function(require,module,exports){
-var EventEmitter = require('events').EventEmitter
-var inherits = require('inherits')
+var EventEmitter = require('events').EventEmitter;
+var inherits = require('inherits');
 
-module.exports = Select
-inherits(Select, EventEmitter)
+module.exports = Select;
+inherits(Select, EventEmitter);
 
-function Select (root, opts, theme, uuid) {
-  if (!(this instanceof Select)) return new Select(root, opts, theme, uuid)
-  var self = this
-  var i, container, input, downTriangle, upTriangle, key, option, el, keys
+function Select(root, opts, theme, uuid) {
+  if (!(this instanceof Select)) return new Select(root, opts, theme, uuid);
+  var self = this;
+  var i, container, input, downTriangle, upTriangle, key, option, el, keys;
 
-  container = require('./container')(root, opts.label)
-  require('./label')(container, opts.label, theme)
+  container = require('./container')(root, opts.label);
+  require('./label')(container, opts.label, theme);
 
-  input = document.createElement('select')
-  input.className = 'control-panel-select-' + uuid + '-dropdown'
+  input = document.createElement('select');
+  input.className = 'control-panel-select-' + uuid + '-dropdown';
 
-  downTriangle = document.createElement('span')
-  downTriangle.className = 'control-panel-select-' + uuid + '-triangle control-panel-select-' + uuid + '-triangle--down'
+  downTriangle = document.createElement('span');
+  downTriangle.className = 'control-panel-select-' + uuid + '-triangle control-panel-select-' + uuid + '-triangle--down';
 
-  upTriangle = document.createElement('span')
-  upTriangle.className = 'control-panel-select-' + uuid + '-triangle control-panel-select-' + uuid + '-triangle--up'
+  upTriangle = document.createElement('span');
+  upTriangle.className = 'control-panel-select-' + uuid + '-triangle control-panel-select-' + uuid + '-triangle--up';
 
-  container.appendChild(downTriangle)
-  container.appendChild(upTriangle)
+  container.appendChild(downTriangle);
+  container.appendChild(upTriangle);
 
   if (Array.isArray(opts.options)) {
     for (i = 0; i < opts.options.length; i++) {
-      option = opts.options[i]
-      el = document.createElement('option')
-      el.value = el.textContent = option
+      option = opts.options[i];
+      el = document.createElement('option');
+      el.value = el.textContent = option;
       if (opts.initial === option) {
-        el.selected = 'selected'
+        el.selected = 'selected';
       }
-      input.appendChild(el)
+      input.appendChild(el);
     }
   } else {
-    keys = Object.keys(opts.options)
+    keys = Object.keys(opts.options);
     for (i = 0; i < keys.length; i++) {
-      key = keys[i]
-      el = document.createElement('option')
-      el.value = key
+      key = keys[i];
+      el = document.createElement('option');
+      el.value = key;
       if (opts.initial === key) {
-        el.selected = 'selected'
+        el.selected = 'selected';
       }
-      el.textContent = opts.options[key]
-      input.appendChild(el)
+      el.textContent = opts.options[key];
+      input.appendChild(el);
     }
   }
 
-  container.appendChild(input)
+  container.appendChild(input);
 
   input.onchange = function (data) {
-    self.emit('input', data.target.value)
-  }
+    self.emit('input', data.target.value);
+  };
 }
-
 },{"./container":4,"./label":6,"events":60,"inherits":120}],10:[function(require,module,exports){
-var EventEmitter = require('events').EventEmitter
-var inherits = require('inherits')
-var css = require('dom-css')
+var EventEmitter = require('events').EventEmitter;
+var inherits = require('inherits');
+var css = require('dom-css');
 
-module.exports = Text
-inherits(Text, EventEmitter)
+module.exports = Text;
+inherits(Text, EventEmitter);
 
-function Text (root, opts, theme, uuid) {
-  if (!(this instanceof Text)) return new Text(root, opts, theme, uuid)
-  var self = this
+function Text(root, opts, theme, uuid) {
+  if (!(this instanceof Text)) return new Text(root, opts, theme, uuid);
+  var self = this;
 
-  var container = require('./container')(root, opts.label)
-  require('./label')(container, opts.label, theme)
+  var container = require('./container')(root, opts.label);
+  require('./label')(container, opts.label, theme);
 
-  var input = container.appendChild(document.createElement('input'))
-  input.type = 'text'
-  input.className = 'control-panel-text-' + uuid
-  if (opts.initial) input.value = opts.initial
+  var input = container.appendChild(document.createElement('input'));
+  input.type = 'text';
+  input.className = 'control-panel-text-' + uuid;
+  if (opts.initial) input.value = opts.initial;
 
   input.onfocus = function () {
-    css(input, {outline: 'none'})
-  }
+    css(input, { outline: 'none' });
+  };
 
   css(input, {
     position: 'absolute',
@@ -722,23 +709,22 @@ function Text (root, opts, theme, uuid) {
     background: theme.background2,
     color: theme.text2,
     fontFamily: 'inherit'
-  })
+  });
 
   setTimeout(function () {
-    self.emit('initialized', input.value)
-  })
+    self.emit('initialized', input.value);
+  });
 
   input.oninput = function (data) {
-    self.emit('input', data.target.value)
-  }
+    self.emit('input', data.target.value);
+  };
 }
-
 },{"./container":4,"./label":6,"dom-css":83,"events":60,"inherits":120}],11:[function(require,module,exports){
-var css = require('dom-css')
+var css = require('dom-css');
 
 module.exports = function (root, text, theme) {
-  var title = root.appendChild(document.createElement('div'))
-  title.innerHTML = text
+  var title = root.appendChild(document.createElement('div'));
+  title.innerHTML = text;
 
   css(title, {
     width: '100%',
@@ -747,19 +733,18 @@ module.exports = function (root, text, theme) {
     textTransform: 'uppercase',
     height: '20px',
     marginBottom: '4px'
-  })
+  });
 
-  return title
-}
-
+  return title;
+};
 },{"dom-css":83}],12:[function(require,module,exports){
-var css = require('dom-css')
+var css = require('dom-css');
 
 module.exports = function (root, text, theme, width, left) {
-  var background = root.appendChild(document.createElement('div'))
-  var value = background.appendChild(document.createElement('span'))
+  var background = root.appendChild(document.createElement('div'));
+  var value = background.appendChild(document.createElement('span'));
 
-  value.innerHTML = text
+  value.innerHTML = text;
 
   var bgcss = {
     position: 'absolute',
@@ -769,13 +754,13 @@ module.exports = function (root, text, theme, width, left) {
     width: width,
     display: 'inline-block',
     overflow: 'hidden'
-  }
+  };
 
   if (!left) {
-    bgcss.right = 0
+    bgcss.right = 0;
   }
 
-  css(background, bgcss)
+  css(background, bgcss);
 
   css(value, {
     color: theme.text2,
@@ -786,93 +771,69 @@ module.exports = function (root, text, theme, width, left) {
     lineHeight: '20px',
     wordBreak: 'break-all',
     height: 20
-  })
+  });
 
-  return value
-}
-
+  return value;
+};
 },{"dom-css":83}],13:[function(require,module,exports){
 (function (Buffer){
-var EventEmitter = require('events').EventEmitter
-var inherits = require('inherits')
+var EventEmitter = require('events').EventEmitter;
+var inherits = require('inherits');
 
-var css = require('dom-css')
-var insertcss = require('insert-css')
-var path = require('path')
-var isstring = require('is-string')
-var themes = require('./themes')
-var uuid = require('node-uuid')
+var css = require('dom-css');
+var insertcss = require('insert-css');
+var path = require('path');
+var isstring = require('is-string');
+var themes = require('./themes');
+var uuid = require('node-uuid');
 
-module.exports = Plate
-inherits(Plate, EventEmitter)
+module.exports = Plate;
+inherits(Plate, EventEmitter);
 
-function Plate (items, opts) {
-  if (!(this instanceof Plate)) return new Plate(items, opts)
-  var self = this
-  opts = opts || {}
-  opts.width = opts.width || 300
-  opts.theme = opts.theme || 'dark'
-  opts.theme = isstring(opts.theme) ? themes[opts.theme] : opts.theme
-  opts.root = opts.root || document.body
-  opts.position = opts.position
+function Plate(items, opts) {
+  if (!(this instanceof Plate)) return new Plate(items, opts);
+  var self = this;
+  opts = opts || {};
+  opts.width = opts.width || 300;
+  opts.theme = opts.theme || 'dark';
+  opts.theme = isstring(opts.theme) ? themes[opts.theme] : opts.theme;
+  opts.root = opts.root || document.body;
+  opts.position = opts.position;
 
-  var box = document.createElement('div')
-  var id = uuid.v4()
-  box.className = 'control-panel'
-  box.id = 'control-panel-' + id
+  var box = document.createElement('div');
+  var id = uuid.v4();
+  box.className = 'control-panel';
+  box.id = 'control-panel-' + id;
 
-  var basecss = Buffer("LmNvbnRyb2wtcGFuZWwgewogIGZvbnQtZmFtaWx5OiAnSGFjaycsIG1vbm9zcGFjZTsKICBmb250LXNpemU6IDExcHg7CiAgLXdlYmtpdC11c2VyLXNlbGVjdDogbm9uZTsKICAtbW96LXVzZXItc2VsZWN0OiBub25lOwogIC1tcy11c2VyLXNlbGVjdDogbm9uZTsKICB1c2VyLXNlbGVjdDogbm9uZTsKICBjdXJzb3I6IGRlZmF1bHQ7CiAgdGV4dC1hbGlnbjogbGVmdDsKICBib3gtc2l6aW5nOiBib3JkZXItYm94Owp9CgouY29udHJvbC1wYW5lbCBpbnB1dCB7CiAgZm9udC1mYW1pbHk6ICdIYWNrJzsKICBmb250LXNpemU6IDExcHg7Cn0KCi5jb250cm9sLXBhbmVsIGEgewogIGNvbG9yOiBpbmhlcml0OwogIHRleHQtZGVjb3JhdGlvbjogbm9uZTsKfQo=","base64")
-  var colorcss = Buffer("LlNjcCB7CiAgd2lkdGg6IDEyNXB4OwogIGhlaWdodDogMTAwcHg7CiAgLXdlYmtpdC11c2VyLXNlbGVjdDogbm9uZTsKICAgICAtbW96LXVzZXItc2VsZWN0OiBub25lOwogICAgICAtbXMtdXNlci1zZWxlY3Q6IG5vbmU7CiAgICAgICAgICB1c2VyLXNlbGVjdDogbm9uZTsKICBwb3NpdGlvbjogcmVsYXRpdmU7CiAgei1pbmRleDogMTAwMDsKICBjdXJzb3I6IHBvaW50ZXI7Cn0KLlNjcC1zYXR1cmF0aW9uIHsKICBwb3NpdGlvbjogcmVsYXRpdmU7CiAgd2lkdGg6IGNhbGMoMTAwJSAtIDI1cHgpOwogIGhlaWdodDogMTAwJTsKICBiYWNrZ3JvdW5kOiBsaW5lYXItZ3JhZGllbnQodG8gcmlnaHQsICNmZmYgMCUsICNmMDAgMTAwJSk7CiAgZmxvYXQ6IGxlZnQ7CiAgbWFyZ2luLXJpZ2h0OiA1cHg7Cn0KLlNjcC1icmlnaHRuZXNzIHsKICB3aWR0aDogMTAwJTsKICBoZWlnaHQ6IDEwMCU7CiAgYmFja2dyb3VuZDogbGluZWFyLWdyYWRpZW50KHRvIHRvcCwgIzAwMCAwJSwgcmdiYSgyNTUsMjU1LDI1NSwwKSAxMDAlKTsKfQouU2NwLXNiU2VsZWN0b3IgewogIGJvcmRlcjogMXB4IHNvbGlkOwogIHBvc2l0aW9uOiBhYnNvbHV0ZTsKICB3aWR0aDogMTRweDsKICBoZWlnaHQ6IDE0cHg7CiAgYmFja2dyb3VuZDogI2ZmZjsKICBib3JkZXItcmFkaXVzOiAxMHB4OwogIHRvcDogLTdweDsKICBsZWZ0OiAtN3B4OwogIGJveC1zaXppbmc6IGJvcmRlci1ib3g7CiAgei1pbmRleDogMTA7Cn0KLlNjcC1odWUgewogIHdpZHRoOiAyMHB4OwogIGhlaWdodDogMTAwJTsKICBwb3NpdGlvbjogcmVsYXRpdmU7CiAgZmxvYXQ6IGxlZnQ7CiAgYmFja2dyb3VuZDogbGluZWFyLWdyYWRpZW50KHRvIGJvdHRvbSwgI2YwMCAwJSwgI2YwZiAxNyUsICMwMGYgMzQlLCAjMGZmIDUwJSwgIzBmMCA2NyUsICNmZjAgODQlLCAjZjAwIDEwMCUpOwp9Ci5TY3AtaFNlbGVjdG9yIHsKICBwb3NpdGlvbjogYWJzb2x1dGU7CiAgYmFja2dyb3VuZDogI2ZmZjsKICBib3JkZXItYm90dG9tOiAxcHggc29saWQgIzAwMDsKICByaWdodDogLTNweDsKICB3aWR0aDogMTBweDsKICBoZWlnaHQ6IDJweDsKfQ==","base64")
-  var rangecss = Buffer("aW5wdXRbdHlwZT1yYW5nZV0uY29udHJvbC1wYW5lbC1yYW5nZS17eyBVVUlEIH19IHsKICAtd2Via2l0LWFwcGVhcmFuY2U6IG5vbmU7CiAgd2lkdGg6IDEwMCU7CiAgbWFyZ2luOiAwcHggMDsKfQppbnB1dFt0eXBlPXJhbmdlXS5jb250cm9sLXBhbmVsLXJhbmdlLXt7IFVVSUQgfX06Zm9jdXMgewogIG91dGxpbmU6IG5vbmU7Cn0KaW5wdXRbdHlwZT1yYW5nZV0uY29udHJvbC1wYW5lbC1yYW5nZS17eyBVVUlEIH19Ojotd2Via2l0LXNsaWRlci1ydW5uYWJsZS10cmFjayB7CiAgd2lkdGg6IDEwMCU7CiAgaGVpZ2h0OiAyMHB4OwogIGN1cnNvcjogZXctcmVzaXplOwogIGJhY2tncm91bmQ6IHt7IFRSQUNLX0NPTE9SIH19Owp9CmlucHV0W3R5cGU9cmFuZ2VdLmNvbnRyb2wtcGFuZWwtcmFuZ2Ute3sgVVVJRCB9fTo6LXdlYmtpdC1zbGlkZXItdGh1bWIgewogIGhlaWdodDogMjBweDsKICB3aWR0aDogMTBweDsKICBiYWNrZ3JvdW5kOiB7eyBUSFVNQl9DT0xPUiB9fTsKICBjdXJzb3I6IGV3LXJlc2l6ZTsKICAtd2Via2l0LWFwcGVhcmFuY2U6IG5vbmU7CiAgbWFyZ2luLXRvcDogMHB4Owp9CmlucHV0W3R5cGU9cmFuZ2VdLmNvbnRyb2wtcGFuZWwtcmFuZ2Ute3sgVVVJRCB9fTpmb2N1czo6LXdlYmtpdC1zbGlkZXItcnVubmFibGUtdHJhY2sgewogIGJhY2tncm91bmQ6IHt7IFRSQUNLX0NPTE9SIH19OwogIG91dGxpbmU6IG5vbmU7Cn0KaW5wdXRbdHlwZT1yYW5nZV0uY29udHJvbC1wYW5lbC1yYW5nZS17eyBVVUlEIH19OjotbW96LXJhbmdlLXRyYWNrIHsKICB3aWR0aDogMTAwJTsKICBoZWlnaHQ6IDIwcHg7CiAgY3Vyc29yOiBldy1yZXNpemU7CiAgYmFja2dyb3VuZDoge3sgVFJBQ0tfQ09MT1IgfX07Cn0KaW5wdXRbdHlwZT1yYW5nZV0uY29udHJvbC1wYW5lbC1yYW5nZS17eyBVVUlEIH19OjotbW96LXJhbmdlLXRodW1iIHsKICBoZWlnaHQ6IDIwcHg7CiAgd2lkdGg6IDEwcHg7CiAgYmFja2dyb3VuZDoge3sgVEhVTUJfQ09MT1IgfX07CiAgY3Vyc29yOiBldy1yZXNpemU7Cn0KaW5wdXRbdHlwZT1yYW5nZV0uY29udHJvbC1wYW5lbC1yYW5nZS17eyBVVUlEIH19OjotbXMtdHJhY2sgewogIHdpZHRoOiAxMDAlOwogIGhlaWdodDogMjBweDsKICBjdXJzb3I6IGV3LXJlc2l6ZTsKICBiYWNrZ3JvdW5kOiB0cmFuc3BhcmVudDsKICBib3JkZXItY29sb3I6IHRyYW5zcGFyZW50OwogIGNvbG9yOiB0cmFuc3BhcmVudDsKfQppbnB1dFt0eXBlPXJhbmdlXS5jb250cm9sLXBhbmVsLXJhbmdlLXt7IFVVSUQgfX06Oi1tcy1maWxsLWxvd2VyIHsKICBiYWNrZ3JvdW5kOiB7eyBUUkFDS19DT0xPUiB9fTsKfQppbnB1dFt0eXBlPXJhbmdlXS5jb250cm9sLXBhbmVsLXJhbmdlLXt7IFVVSUQgfX06Oi1tcy1maWxsLXVwcGVyIHsKICBiYWNrZ3JvdW5kOiB7eyBUUkFDS19DT0xPUiB9fTsKfQppbnB1dFt0eXBlPXJhbmdlXS5jb250cm9sLXBhbmVsLXJhbmdlLXt7IFVVSUQgfX06Oi1tcy10aHVtYiB7CiAgd2lkdGg6IDEwcHg7CiAgYm9yZGVyLXJhZGl1czogMHB4OwogIGJhY2tncm91bmQ6IHt7IFRIVU1CX0NPTE9SIH19OwogIGN1cnNvcjogZXctcmVzaXplOwogIGhlaWdodDogMjBweDsKfQppbnB1dFt0eXBlPXJhbmdlXS5jb250cm9sLXBhbmVsLXJhbmdlLXt7IFVVSUQgfX06Zm9jdXM6Oi1tcy1maWxsLWxvd2VyIHsKICBiYWNrZ3JvdW5kOiB7eyBUUkFDS19DT0xPUiB9fTsKICBvdXRsaW5lOiBub25lOwp9CmlucHV0W3R5cGU9cmFuZ2VdLmNvbnRyb2wtcGFuZWwtcmFuZ2Ute3sgVVVJRCB9fTpmb2N1czo6LW1zLWZpbGwtdXBwZXIgewogIGJhY2tncm91bmQ6IHt7IFRSQUNLX0NPTE9SIH19OwogIG91dGxpbmU6IG5vbmU7Cn0KCmlucHV0W3R5cGU9cmFuZ2VdLmNvbnRyb2wtcGFuZWwtcmFuZ2Ute3sgVVVJRCB9fSB7CiAgLXdlYmtpdC1hcHBlYXJhbmNlOiBub25lOwogIHdpZHRoOiAxMDAlOwogIG1hcmdpbjogMHB4IDA7Cn0KaW5wdXRbdHlwZT1yYW5nZV0uY29udHJvbC1wYW5lbC1yYW5nZS17eyBVVUlEIH19OmZvY3VzIHsKICBvdXRsaW5lOiBub25lOwp9CmlucHV0W3R5cGU9cmFuZ2VdLmNvbnRyb2wtcGFuZWwtcmFuZ2Ute3sgVVVJRCB9fTo6LXdlYmtpdC1zbGlkZXItcnVubmFibGUtdHJhY2sgewogIHdpZHRoOiAxMDAlOwogIGhlaWdodDogMjBweDsKICBjdXJzb3I6IGV3LXJlc2l6ZTsKICBiYWNrZ3JvdW5kOiB7eyBUUkFDS19DT0xPUiB9fTsKfQppbnB1dFt0eXBlPXJhbmdlXS5jb250cm9sLXBhbmVsLXJhbmdlLXt7IFVVSUQgfX06Oi13ZWJraXQtc2xpZGVyLXRodW1iIHsKICBoZWlnaHQ6IDIwcHg7CiAgd2lkdGg6IDEwcHg7CiAgYmFja2dyb3VuZDoge3sgVEhVTUJfQ09MT1IgfX07CiAgY3Vyc29yOiBldy1yZXNpemU7CiAgLXdlYmtpdC1hcHBlYXJhbmNlOiBub25lOwogIG1hcmdpbi10b3A6IDBweDsKfQppbnB1dFt0eXBlPXJhbmdlXS5jb250cm9sLXBhbmVsLXJhbmdlLXt7IFVVSUQgfX06Zm9jdXM6Oi13ZWJraXQtc2xpZGVyLXJ1bm5hYmxlLXRyYWNrIHsKICBiYWNrZ3JvdW5kOiB7eyBUUkFDS19DT0xPUiB9fTsKICBvdXRsaW5lOiBub25lOwp9CmlucHV0W3R5cGU9cmFuZ2VdLmNvbnRyb2wtcGFuZWwtcmFuZ2Ute3sgVVVJRCB9fTo6LW1vei1yYW5nZS10cmFjayB7CiAgd2lkdGg6IDEwMCU7CiAgaGVpZ2h0OiAyMHB4OwogIGN1cnNvcjogZXctcmVzaXplOwogIGJhY2tncm91bmQ6IHt7IFRSQUNLX0NPTE9SIH19Owp9CmlucHV0W3R5cGU9cmFuZ2VdLmNvbnRyb2wtcGFuZWwtcmFuZ2Ute3sgVVVJRCB9fTo6LW1vei1yYW5nZS10aHVtYiB7CiAgaGVpZ2h0OiAyMHB4OwogIHdpZHRoOiAxMHB4OwogIGJhY2tncm91bmQ6IHt7IFRIVU1CX0NPTE9SIH19OwogIGN1cnNvcjogZXctcmVzaXplOwp9CmlucHV0W3R5cGU9cmFuZ2VdLmNvbnRyb2wtcGFuZWwtcmFuZ2Ute3sgVVVJRCB9fTo6LW1zLXRyYWNrIHsKICB3aWR0aDogMTAwJTsKICBoZWlnaHQ6IDIwcHg7CiAgY3Vyc29yOiBldy1yZXNpemU7CiAgYmFja2dyb3VuZDogdHJhbnNwYXJlbnQ7CiAgYm9yZGVyLWNvbG9yOiB0cmFuc3BhcmVudDsKICBjb2xvcjogdHJhbnNwYXJlbnQ7Cn0KaW5wdXRbdHlwZT1yYW5nZV0uY29udHJvbC1wYW5lbC1yYW5nZS17eyBVVUlEIH19OjotbXMtZmlsbC1sb3dlciB7CiAgYmFja2dyb3VuZDoge3sgVFJBQ0tfQ09MT1IgfX07Cn0KaW5wdXRbdHlwZT1yYW5nZV0uY29udHJvbC1wYW5lbC1yYW5nZS17eyBVVUlEIH19OjotbXMtZmlsbC11cHBlciB7CiAgYmFja2dyb3VuZDoge3sgVFJBQ0tfQ09MT1IgfX07Cn0KaW5wdXRbdHlwZT1yYW5nZV0uY29udHJvbC1wYW5lbC1yYW5nZS17eyBVVUlEIH19OjotbXMtdGh1bWIgewogIHdpZHRoOiAxMHB4OwogIGJhY2tncm91bmQ6IHt7IFRIVU1CX0NPTE9SIH19OwogIGN1cnNvcjogZXctcmVzaXplOwogIGhlaWdodDogMjBweDsKfQppbnB1dFt0eXBlPXJhbmdlXS5jb250cm9sLXBhbmVsLXJhbmdlLXt7IFVVSUQgfX06Zm9jdXM6Oi1tcy1maWxsLWxvd2VyIHsKICBiYWNrZ3JvdW5kOiB7eyBUUkFDS19DT0xPUiB9fTsKICBvdXRsaW5lOiBub25lOwp9CmlucHV0W3R5cGU9cmFuZ2VdLmNvbnRyb2wtcGFuZWwtcmFuZ2Ute3sgVVVJRCB9fTpmb2N1czo6LW1zLWZpbGwtdXBwZXIgewogIGJhY2tncm91bmQ6IHt7IFRSQUNLX0NPTE9SIH19OwogIG91dGxpbmU6IG5vbmU7Cn0KaW5wdXRbdHlwZT1yYW5nZV0uY29udHJvbC1wYW5lbC1yYW5nZS17eyBVVUlEIH19IHsKICAtd2Via2l0LWFwcGVhcmFuY2U6IG5vbmU7CiAgd2lkdGg6IDEwMCU7CiAgbWFyZ2luOiAwcHggMDsKfQppbnB1dFt0eXBlPXJhbmdlXS5jb250cm9sLXBhbmVsLXJhbmdlLXt7IFVVSUQgfX06Zm9jdXMgewogIG91dGxpbmU6IG5vbmU7Cn0KaW5wdXRbdHlwZT1yYW5nZV0uY29udHJvbC1wYW5lbC1yYW5nZS17eyBVVUlEIH19Ojotd2Via2l0LXNsaWRlci1ydW5uYWJsZS10cmFjayB7CiAgd2lkdGg6IDEwMCU7CiAgaGVpZ2h0OiAyMHB4OwogIGN1cnNvcjogZXctcmVzaXplOwogIGJhY2tncm91bmQ6IHt7IFRSQUNLX0NPTE9SIH19Owp9CmlucHV0W3R5cGU9cmFuZ2VdLmNvbnRyb2wtcGFuZWwtcmFuZ2Ute3sgVVVJRCB9fTo6LXdlYmtpdC1zbGlkZXItdGh1bWIgewogIGhlaWdodDogMjBweDsKICB3aWR0aDogMTBweDsKICBiYWNrZ3JvdW5kOiB7eyBUSFVNQl9DT0xPUiB9fTsKICBjdXJzb3I6IGV3LXJlc2l6ZTsKICAtd2Via2l0LWFwcGVhcmFuY2U6IG5vbmU7CiAgbWFyZ2luLXRvcDogMHB4Owp9CmlucHV0W3R5cGU9cmFuZ2VdLmNvbnRyb2wtcGFuZWwtcmFuZ2Ute3sgVVVJRCB9fTpmb2N1czo6LXdlYmtpdC1zbGlkZXItcnVubmFibGUtdHJhY2sgewogIGJhY2tncm91bmQ6IHt7IFRSQUNLX0NPTE9SIH19OwogIG91dGxpbmU6IG5vbmU7Cn0KaW5wdXRbdHlwZT1yYW5nZV0uY29udHJvbC1wYW5lbC1yYW5nZS17eyBVVUlEIH19OjotbW96LXJhbmdlLXRyYWNrIHsKICB3aWR0aDogMTAwJTsKICBoZWlnaHQ6IDIwcHg7CiAgY3Vyc29yOiBldy1yZXNpemU7CiAgYmFja2dyb3VuZDoge3sgVFJBQ0tfQ09MT1IgfX07Cn0KaW5wdXRbdHlwZT1yYW5nZV0uY29udHJvbC1wYW5lbC1yYW5nZS17eyBVVUlEIH19OjotbW96LXJhbmdlLXRodW1iIHsKICBib3JkZXI6IDBweCBzb2xpZCByZ2JhKDAsIDAsIDAsIDApOwogIGhlaWdodDogMjBweDsKICB3aWR0aDogMTBweDsKICBib3JkZXItcmFkaXVzOiAwcHg7CiAgYmFja2dyb3VuZDoge3sgVEhVTUJfQ09MT1IgfX07CiAgY3Vyc29yOiBldy1yZXNpemU7Cn0KaW5wdXRbdHlwZT1yYW5nZV0uY29udHJvbC1wYW5lbC1yYW5nZS17eyBVVUlEIH19OjotbXMtdHJhY2sgewogIHdpZHRoOiAxMDAlOwogIGhlaWdodDogMjBweDsKICBjdXJzb3I6IGV3LXJlc2l6ZTsKICBiYWNrZ3JvdW5kOiB0cmFuc3BhcmVudDsKICBib3JkZXItY29sb3I6IHRyYW5zcGFyZW50OwogIGNvbG9yOiB0cmFuc3BhcmVudDsKfQppbnB1dFt0eXBlPXJhbmdlXS5jb250cm9sLXBhbmVsLXJhbmdlLXt7IFVVSUQgfX06Oi1tcy1maWxsLWxvd2VyIHsKICBiYWNrZ3JvdW5kOiB7eyBUUkFDS19DT0xPUiB9fTsKfQppbnB1dFt0eXBlPXJhbmdlXS5jb250cm9sLXBhbmVsLXJhbmdlLXt7IFVVSUQgfX06Oi1tcy1maWxsLXVwcGVyIHsKICBiYWNrZ3JvdW5kOiB7eyBUUkFDS19DT0xPUiB9fTsKfQppbnB1dFt0eXBlPXJhbmdlXS5jb250cm9sLXBhbmVsLXJhbmdlLXt7IFVVSUQgfX06Oi1tcy10aHVtYiB7CiAgd2lkdGg6IDEwcHg7CiAgYmFja2dyb3VuZDoge3sgVEhVTUJfQ09MT1IgfX07CiAgY3Vyc29yOiBldy1yZXNpemU7CiAgaGVpZ2h0OiAyMHB4Owp9CmlucHV0W3R5cGU9cmFuZ2VdLmNvbnRyb2wtcGFuZWwtcmFuZ2Ute3sgVVVJRCB9fTpmb2N1czo6LW1zLWZpbGwtbG93ZXIgewogIGJhY2tncm91bmQ6IHt7IFRSQUNLX0NPTE9SIH19OwogIG91dGxpbmU6IG5vbmU7Cn0KaW5wdXRbdHlwZT1yYW5nZV0uY29udHJvbC1wYW5lbC1yYW5nZS17eyBVVUlEIH19OmZvY3VzOjotbXMtZmlsbC11cHBlciB7CiAgYmFja2dyb3VuZDoge3sgVFJBQ0tfQ09MT1IgfX07CiAgb3V0bGluZTogbm9uZTsKfQ==","base64")
-  var checkboxcss = Buffer("aW5wdXRbdHlwZT0iY2hlY2tib3giXS5jb250cm9sLXBhbmVsLWNoZWNrYm94LXt7IFVVSUQgfX0gewogIGRpc3BsYXk6bm9uZTsKICBjdXJzb3I6IHBvaW50ZXI7IAp9CgppbnB1dFt0eXBlPWNoZWNrYm94XS5jb250cm9sLXBhbmVsLWNoZWNrYm94LXt7IFVVSUQgfX0gKyBsYWJlbDpiZWZvcmUgewogIGNvbnRlbnQ6ICIiOyAgCiAgZGlzcGxheTogaW5saW5lLWJsb2NrOyAgCiAgd2lkdGg6IDE4cHg7ICAKICBoZWlnaHQ6IDE4cHg7ICAKICBwYWRkaW5nOiAwcHg7CiAgdmVydGljYWwtYWxpZ246bWlkZGxlOwogIG1hcmdpbi1yaWdodDogOHB4OyAKICBtYXJnaW4tdG9wOiAycHg7IAogIGJhY2tncm91bmQtY29sb3I6IHt7IEJPWF9DT0xPUiB9fTsgIAogIGJvcmRlci1yYWRpdXM6IDBweDsgCiAgY3Vyc29yOiBwb2ludGVyOyAKfQoKaW5wdXRbdHlwZT1jaGVja2JveF06Y2hlY2tlZC5jb250cm9sLXBhbmVsLWNoZWNrYm94LXt7IFVVSUQgfX0gICsgbGFiZWw6YmVmb3JlIHsKICB3aWR0aDogMTBweDsgIAogIGhlaWdodDogMTBweDsgIAogIGJhY2tncm91bmQtY29sb3I6IHt7IElDT05fQ09MT1IgfX07CiAgYm9yZGVyOiBzb2xpZCA0cHgge3sgQk9YX0NPTE9SIH19OwogIGN1cnNvcjogcG9pbnRlcjsgCn0=","base64")
-  var multiboxcss = Buffer("aW5wdXRbdHlwZT0iY2hlY2tib3giXS5jb250cm9sLXBhbmVsLW11bHRpYm94LXt7IFVVSUQgfX0gewogIGRpc3BsYXk6bm9uZTsKICBjdXJzb3I6IHBvaW50ZXI7IAp9CgppbnB1dFt0eXBlPWNoZWNrYm94XS5jb250cm9sLXBhbmVsLW11bHRpYm94LXt7IFVVSUQgfX0gKyBsYWJlbDpiZWZvcmUgewogIGNvbnRlbnQ6ICIiOyAgCiAgZGlzcGxheTogaW5saW5lLWJsb2NrOyAgCiAgd2lkdGg6IDE4cHg7ICAKICBoZWlnaHQ6IDE4cHg7ICAKICBwYWRkaW5nOiAwcHg7CiAgdmVydGljYWwtYWxpZ246bWlkZGxlOwogIG1hcmdpbi1yaWdodDogOHB4OyAKICBtYXJnaW4tdG9wOiAycHg7IAogIG1hcmdpbi1ib3R0b206IDFweDsKICBiYWNrZ3JvdW5kLWNvbG9yOiB7eyBCT1hfQ09MT1IgfX07ICAKICBib3JkZXItcmFkaXVzOiAwcHg7IAogIGN1cnNvcjogcG9pbnRlcjsgCn0KCmlucHV0W3R5cGU9Y2hlY2tib3hdOmNoZWNrZWQuY29udHJvbC1wYW5lbC1tdWx0aWJveC17eyBVVUlEIH19ICArIGxhYmVsOmJlZm9yZSB7CiAgd2lkdGg6IDEwcHg7ICAKICBoZWlnaHQ6IDEwcHg7ICAKICBiYWNrZ3JvdW5kLWNvbG9yOiB7eyBJQ09OX0NPTE9SIH19OwogIGJvcmRlcjogc29saWQgNHB4IHt7IEJPWF9DT0xPUiB9fTsKICBjdXJzb3I6IHBvaW50ZXI7IAp9CgouY29udHJvbC1wYW5lbC1tdWx0aWJveC1uYW1lLXt7IFVVSUQgfX0gewogIHBhZGRpbmctcmlnaHQ6IDdweDsKICB2ZXJ0aWNhbC1hbGlnbjogbWlkZGxlOwp9","base64")
-  var buttoncss = Buffer("LmNvbnRyb2wtcGFuZWwtYnV0dG9uLXt7IFVVSUQgfX0gewogIGNvbG9yOiB7eyBCVVRUT05fQ09MT1IgfX07CiAgYmFja2dyb3VuZC1jb2xvcjoge3sgQlVUVE9OX0JHIH19Owp9Ci5jb250cm9sLXBhbmVsLWJ1dHRvbi17eyBVVUlEIH19OmhvdmVyIHsKICBjb2xvcjoge3sgQlVUVE9OX0NPTE9SX0hPVkVSIH19OwogIGJhY2tncm91bmQtY29sb3I6IHt7IEJVVFRPTl9CR19IT1ZFUiB9fTsKfQouY29udHJvbC1wYW5lbC1idXR0b24te3sgVVVJRCB9fTphY3RpdmUgewogIGNvbG9yOiB7eyBCVVRUT05fQ09MT1JfQUNUSVZFIH19OwogIGJhY2tncm91bmQtY29sb3I6IHt7IEJVVFRPTl9CR19BQ1RJVkUgfX07Cn0K","base64")
-  var intervalcss = Buffer("LmNvbnRyb2wtcGFuZWwtaW50ZXJ2YWwte3sgVVVJRCB9fSB7CiAgLXdlYmtpdC1hcHBlYXJhbmNlOiBub25lOwogIHBvc2l0aW9uOiBhYnNvbHV0ZTsKICBoZWlnaHQ6IDIwcHg7CiAgbWFyZ2luOiAwcHggMDsKICB3aWR0aDogMzMlOwogIGxlZnQ6IDUyLjUlOwogIGJhY2tncm91bmQtY29sb3I6IHt7IFRSQUNLX0NPTE9SIH19OwogIGN1cnNvcjogZXctcmVzaXplOwoKICAtd2Via2l0LXRvdWNoLWNhbGxvdXQ6IG5vbmU7CiAgLXdlYmtpdC11c2VyLXNlbGVjdDogbm9uZTsKICAta2h0bWwtdXNlci1zZWxlY3Q6IG5vbmU7CiAgLW1vei11c2VyLXNlbGVjdDogbm9uZTsKICAtbXMtdXNlci1zZWxlY3Q6IG5vbmU7CiAgdXNlci1zZWxlY3Q6IG5vbmU7Cn0KLmNvbnRyb2wtcGFuZWwtaW50ZXJ2YWwte3sgVVVJRCB9fSAuY29udHJvbC1wYW5lbC1pbnRlcnZhbC1oYW5kbGUgewogIGJhY2tncm91bmQtY29sb3I6IHt7IElOVEVSVkFMX0NPTE9SIH19OwogIHBvc2l0aW9uOiBhYnNvbHV0ZTsKICBoZWlnaHQ6IDIwcHg7CiAgbWluLXdpZHRoOiAxcHg7Cn0KI2NvbnRyb2wtcGFuZWwte3sgVVVJRCB9fS5jb250cm9sLXBhbmVsLWludGVydmFsLWRyYWdnaW5nICogewogIC13ZWJraXQtdG91Y2gtY2FsbG91dDogbm9uZSAhaW1wb3J0YW50OwogIC13ZWJraXQtdXNlci1zZWxlY3Q6IG5vbmUgIWltcG9ydGFudDsKICAta2h0bWwtdXNlci1zZWxlY3Q6IG5vbmUgIWltcG9ydGFudDsKICAtbW96LXVzZXItc2VsZWN0OiBub25lICFpbXBvcnRhbnQ7CiAgLW1zLXVzZXItc2VsZWN0OiBub25lICFpbXBvcnRhbnQ7CiAgdXNlci1zZWxlY3Q6IG5vbmUgIWltcG9ydGFudDsKCiAgY3Vyc29yOiBldy1yZXNpemUgIWltcG9ydGFudDsKfQo=","base64")
-  var selectcss = Buffer("LmNvbnRyb2wtcGFuZWwtc2VsZWN0LXt7IFVVSUQgfX0tZHJvcGRvd24gewogIGRpc3BsYXk6IGlubGluZS1ibG9jazsKICBwb3NpdGlvbjogYWJzb2x1dGU7CiAgd2lkdGg6IDYyJTsKICBwYWRkaW5nLWxlZnQ6IDEuNSU7CiAgaGVpZ2h0OiAyMHB4OwogIGJvcmRlcjogbm9uZTsKICBib3JkZXItcmFkaXVzOiAwOwogIG91dGxpbmU6IG5vbmU7CiAgLXdlYmtpdC1hcHBlYXJhbmNlOiBub25lOwogIC1tb3otYXBwZWFyYW5jZTogbm9uZTsKICAtby1hcHBlYXJhbmNlOm5vbmU7CiAgYXBwZWFyYW5jZTpub25lOwogIGZvbnQtZmFtaWx5OiBpbmhlcml0OwogIGJhY2tncm91bmQtY29sb3I6IHt7IEJHX0NPTE9SIH19OwogIGNvbG9yOiB7eyBURVhUX0NPTE9SIH19Owp9Ci5jb250cm9sLXBhbmVsLXNlbGVjdC17eyBVVUlEIH19LWRyb3Bkb3duOjotbXMtZXhwYW5kIHsKICBkaXNwbGF5Om5vbmU7Cn0KLmNvbnRyb2wtcGFuZWwtc2VsZWN0LXt7IFVVSUQgfX0tdHJpYW5nbGUgewogIGNvbnRlbnQ6ICcgJzsKICBib3JkZXItcmlnaHQ6IDNweCBzb2xpZCB0cmFuc3BhcmVudDsKICBib3JkZXItbGVmdDogM3B4IHNvbGlkIHRyYW5zcGFyZW50OwogIGxpbmUtaGVpZ2h0OiAyMHB4OwogIHBvc2l0aW9uOiBhYnNvbHV0ZTsKICByaWdodDogMi41JTsKICB6LWluZGV4OiAxOwp9Ci5jb250cm9sLXBhbmVsLXNlbGVjdC17eyBVVUlEIH19LXRyaWFuZ2xlLS1kb3duIHsKICB0b3A6IDExcHg7CiAgYm9yZGVyLXRvcDogNXB4IHNvbGlkIHt7IFRFWFRfQ09MT1IgfX07CiAgYm9yZGVyLWJvdHRvbTogMHB4IHRyYW5zcGFyZW50Owp9Ci5jb250cm9sLXBhbmVsLXNlbGVjdC17eyBVVUlEIH19LXRyaWFuZ2xlLS11cCB7CiAgdG9wOiA0cHg7CiAgYm9yZGVyLWJvdHRvbTogNXB4IHNvbGlkIHt7IFRFWFRfQ09MT1IgfX07CiAgYm9yZGVyLXRvcDogMHB4IHRyYW5zcGFyZW50Owp9Cg==","base64")
+  var basecss = Buffer("LmNvbnRyb2wtcGFuZWwgewogIGZvbnQtZmFtaWx5OiAnSGFjaycsIG1vbm9zcGFjZTsKICBmb250LXNpemU6IDExcHg7CiAgLXdlYmtpdC11c2VyLXNlbGVjdDogbm9uZTsKICAtbW96LXVzZXItc2VsZWN0OiBub25lOwogIC1tcy11c2VyLXNlbGVjdDogbm9uZTsKICB1c2VyLXNlbGVjdDogbm9uZTsKICBjdXJzb3I6IGRlZmF1bHQ7CiAgdGV4dC1hbGlnbjogbGVmdDsKICBib3gtc2l6aW5nOiBib3JkZXItYm94Owp9CgouY29udHJvbC1wYW5lbCBpbnB1dCB7CiAgZm9udC1mYW1pbHk6ICdIYWNrJzsKICBmb250LXNpemU6IDExcHg7Cn0KCi5jb250cm9sLXBhbmVsIGEgewogIGNvbG9yOiBpbmhlcml0OwogIHRleHQtZGVjb3JhdGlvbjogbm9uZTsKfQo=","base64");
+  var colorcss = Buffer("LlNjcCB7CiAgd2lkdGg6IDEyNXB4OwogIGhlaWdodDogMTAwcHg7CiAgLXdlYmtpdC11c2VyLXNlbGVjdDogbm9uZTsKICAgICAtbW96LXVzZXItc2VsZWN0OiBub25lOwogICAgICAtbXMtdXNlci1zZWxlY3Q6IG5vbmU7CiAgICAgICAgICB1c2VyLXNlbGVjdDogbm9uZTsKICBwb3NpdGlvbjogcmVsYXRpdmU7CiAgei1pbmRleDogMTAwMDsKICBjdXJzb3I6IHBvaW50ZXI7Cn0KLlNjcC1zYXR1cmF0aW9uIHsKICBwb3NpdGlvbjogcmVsYXRpdmU7CiAgd2lkdGg6IGNhbGMoMTAwJSAtIDI1cHgpOwogIGhlaWdodDogMTAwJTsKICBiYWNrZ3JvdW5kOiBsaW5lYXItZ3JhZGllbnQodG8gcmlnaHQsICNmZmYgMCUsICNmMDAgMTAwJSk7CiAgZmxvYXQ6IGxlZnQ7CiAgbWFyZ2luLXJpZ2h0OiA1cHg7Cn0KLlNjcC1icmlnaHRuZXNzIHsKICB3aWR0aDogMTAwJTsKICBoZWlnaHQ6IDEwMCU7CiAgYmFja2dyb3VuZDogbGluZWFyLWdyYWRpZW50KHRvIHRvcCwgIzAwMCAwJSwgcmdiYSgyNTUsMjU1LDI1NSwwKSAxMDAlKTsKfQouU2NwLXNiU2VsZWN0b3IgewogIGJvcmRlcjogMXB4IHNvbGlkOwogIHBvc2l0aW9uOiBhYnNvbHV0ZTsKICB3aWR0aDogMTRweDsKICBoZWlnaHQ6IDE0cHg7CiAgYmFja2dyb3VuZDogI2ZmZjsKICBib3JkZXItcmFkaXVzOiAxMHB4OwogIHRvcDogLTdweDsKICBsZWZ0OiAtN3B4OwogIGJveC1zaXppbmc6IGJvcmRlci1ib3g7CiAgei1pbmRleDogMTA7Cn0KLlNjcC1odWUgewogIHdpZHRoOiAyMHB4OwogIGhlaWdodDogMTAwJTsKICBwb3NpdGlvbjogcmVsYXRpdmU7CiAgZmxvYXQ6IGxlZnQ7CiAgYmFja2dyb3VuZDogbGluZWFyLWdyYWRpZW50KHRvIGJvdHRvbSwgI2YwMCAwJSwgI2YwZiAxNyUsICMwMGYgMzQlLCAjMGZmIDUwJSwgIzBmMCA2NyUsICNmZjAgODQlLCAjZjAwIDEwMCUpOwp9Ci5TY3AtaFNlbGVjdG9yIHsKICBwb3NpdGlvbjogYWJzb2x1dGU7CiAgYmFja2dyb3VuZDogI2ZmZjsKICBib3JkZXItYm90dG9tOiAxcHggc29saWQgIzAwMDsKICByaWdodDogLTNweDsKICB3aWR0aDogMTBweDsKICBoZWlnaHQ6IDJweDsKfQ==","base64");
+  var rangecss = Buffer("aW5wdXRbdHlwZT1yYW5nZV0uY29udHJvbC1wYW5lbC1yYW5nZS17eyBVVUlEIH19IHsKICAtd2Via2l0LWFwcGVhcmFuY2U6IG5vbmU7CiAgd2lkdGg6IDEwMCU7CiAgbWFyZ2luOiAwcHggMDsKfQppbnB1dFt0eXBlPXJhbmdlXS5jb250cm9sLXBhbmVsLXJhbmdlLXt7IFVVSUQgfX06Zm9jdXMgewogIG91dGxpbmU6IG5vbmU7Cn0KaW5wdXRbdHlwZT1yYW5nZV0uY29udHJvbC1wYW5lbC1yYW5nZS17eyBVVUlEIH19Ojotd2Via2l0LXNsaWRlci1ydW5uYWJsZS10cmFjayB7CiAgd2lkdGg6IDEwMCU7CiAgaGVpZ2h0OiAyMHB4OwogIGN1cnNvcjogZXctcmVzaXplOwogIGJhY2tncm91bmQ6IHt7IFRSQUNLX0NPTE9SIH19Owp9CmlucHV0W3R5cGU9cmFuZ2VdLmNvbnRyb2wtcGFuZWwtcmFuZ2Ute3sgVVVJRCB9fTo6LXdlYmtpdC1zbGlkZXItdGh1bWIgewogIGhlaWdodDogMjBweDsKICB3aWR0aDogMTBweDsKICBiYWNrZ3JvdW5kOiB7eyBUSFVNQl9DT0xPUiB9fTsKICBjdXJzb3I6IGV3LXJlc2l6ZTsKICAtd2Via2l0LWFwcGVhcmFuY2U6IG5vbmU7CiAgbWFyZ2luLXRvcDogMHB4Owp9CmlucHV0W3R5cGU9cmFuZ2VdLmNvbnRyb2wtcGFuZWwtcmFuZ2Ute3sgVVVJRCB9fTpmb2N1czo6LXdlYmtpdC1zbGlkZXItcnVubmFibGUtdHJhY2sgewogIGJhY2tncm91bmQ6IHt7IFRSQUNLX0NPTE9SIH19OwogIG91dGxpbmU6IG5vbmU7Cn0KaW5wdXRbdHlwZT1yYW5nZV0uY29udHJvbC1wYW5lbC1yYW5nZS17eyBVVUlEIH19OjotbW96LXJhbmdlLXRyYWNrIHsKICB3aWR0aDogMTAwJTsKICBoZWlnaHQ6IDIwcHg7CiAgY3Vyc29yOiBldy1yZXNpemU7CiAgYmFja2dyb3VuZDoge3sgVFJBQ0tfQ09MT1IgfX07Cn0KaW5wdXRbdHlwZT1yYW5nZV0uY29udHJvbC1wYW5lbC1yYW5nZS17eyBVVUlEIH19OjotbW96LXJhbmdlLXRodW1iIHsKICBoZWlnaHQ6IDIwcHg7CiAgd2lkdGg6IDEwcHg7CiAgYmFja2dyb3VuZDoge3sgVEhVTUJfQ09MT1IgfX07CiAgY3Vyc29yOiBldy1yZXNpemU7Cn0KaW5wdXRbdHlwZT1yYW5nZV0uY29udHJvbC1wYW5lbC1yYW5nZS17eyBVVUlEIH19OjotbXMtdHJhY2sgewogIHdpZHRoOiAxMDAlOwogIGhlaWdodDogMjBweDsKICBjdXJzb3I6IGV3LXJlc2l6ZTsKICBiYWNrZ3JvdW5kOiB0cmFuc3BhcmVudDsKICBib3JkZXItY29sb3I6IHRyYW5zcGFyZW50OwogIGNvbG9yOiB0cmFuc3BhcmVudDsKfQppbnB1dFt0eXBlPXJhbmdlXS5jb250cm9sLXBhbmVsLXJhbmdlLXt7IFVVSUQgfX06Oi1tcy1maWxsLWxvd2VyIHsKICBiYWNrZ3JvdW5kOiB7eyBUUkFDS19DT0xPUiB9fTsKfQppbnB1dFt0eXBlPXJhbmdlXS5jb250cm9sLXBhbmVsLXJhbmdlLXt7IFVVSUQgfX06Oi1tcy1maWxsLXVwcGVyIHsKICBiYWNrZ3JvdW5kOiB7eyBUUkFDS19DT0xPUiB9fTsKfQppbnB1dFt0eXBlPXJhbmdlXS5jb250cm9sLXBhbmVsLXJhbmdlLXt7IFVVSUQgfX06Oi1tcy10aHVtYiB7CiAgd2lkdGg6IDEwcHg7CiAgYm9yZGVyLXJhZGl1czogMHB4OwogIGJhY2tncm91bmQ6IHt7IFRIVU1CX0NPTE9SIH19OwogIGN1cnNvcjogZXctcmVzaXplOwogIGhlaWdodDogMjBweDsKfQppbnB1dFt0eXBlPXJhbmdlXS5jb250cm9sLXBhbmVsLXJhbmdlLXt7IFVVSUQgfX06Zm9jdXM6Oi1tcy1maWxsLWxvd2VyIHsKICBiYWNrZ3JvdW5kOiB7eyBUUkFDS19DT0xPUiB9fTsKICBvdXRsaW5lOiBub25lOwp9CmlucHV0W3R5cGU9cmFuZ2VdLmNvbnRyb2wtcGFuZWwtcmFuZ2Ute3sgVVVJRCB9fTpmb2N1czo6LW1zLWZpbGwtdXBwZXIgewogIGJhY2tncm91bmQ6IHt7IFRSQUNLX0NPTE9SIH19OwogIG91dGxpbmU6IG5vbmU7Cn0KCmlucHV0W3R5cGU9cmFuZ2VdLmNvbnRyb2wtcGFuZWwtcmFuZ2Ute3sgVVVJRCB9fSB7CiAgLXdlYmtpdC1hcHBlYXJhbmNlOiBub25lOwogIHdpZHRoOiAxMDAlOwogIG1hcmdpbjogMHB4IDA7Cn0KaW5wdXRbdHlwZT1yYW5nZV0uY29udHJvbC1wYW5lbC1yYW5nZS17eyBVVUlEIH19OmZvY3VzIHsKICBvdXRsaW5lOiBub25lOwp9CmlucHV0W3R5cGU9cmFuZ2VdLmNvbnRyb2wtcGFuZWwtcmFuZ2Ute3sgVVVJRCB9fTo6LXdlYmtpdC1zbGlkZXItcnVubmFibGUtdHJhY2sgewogIHdpZHRoOiAxMDAlOwogIGhlaWdodDogMjBweDsKICBjdXJzb3I6IGV3LXJlc2l6ZTsKICBiYWNrZ3JvdW5kOiB7eyBUUkFDS19DT0xPUiB9fTsKfQppbnB1dFt0eXBlPXJhbmdlXS5jb250cm9sLXBhbmVsLXJhbmdlLXt7IFVVSUQgfX06Oi13ZWJraXQtc2xpZGVyLXRodW1iIHsKICBoZWlnaHQ6IDIwcHg7CiAgd2lkdGg6IDEwcHg7CiAgYmFja2dyb3VuZDoge3sgVEhVTUJfQ09MT1IgfX07CiAgY3Vyc29yOiBldy1yZXNpemU7CiAgLXdlYmtpdC1hcHBlYXJhbmNlOiBub25lOwogIG1hcmdpbi10b3A6IDBweDsKfQppbnB1dFt0eXBlPXJhbmdlXS5jb250cm9sLXBhbmVsLXJhbmdlLXt7IFVVSUQgfX06Zm9jdXM6Oi13ZWJraXQtc2xpZGVyLXJ1bm5hYmxlLXRyYWNrIHsKICBiYWNrZ3JvdW5kOiB7eyBUUkFDS19DT0xPUiB9fTsKICBvdXRsaW5lOiBub25lOwp9CmlucHV0W3R5cGU9cmFuZ2VdLmNvbnRyb2wtcGFuZWwtcmFuZ2Ute3sgVVVJRCB9fTo6LW1vei1yYW5nZS10cmFjayB7CiAgd2lkdGg6IDEwMCU7CiAgaGVpZ2h0OiAyMHB4OwogIGN1cnNvcjogZXctcmVzaXplOwogIGJhY2tncm91bmQ6IHt7IFRSQUNLX0NPTE9SIH19Owp9CmlucHV0W3R5cGU9cmFuZ2VdLmNvbnRyb2wtcGFuZWwtcmFuZ2Ute3sgVVVJRCB9fTo6LW1vei1yYW5nZS10aHVtYiB7CiAgaGVpZ2h0OiAyMHB4OwogIHdpZHRoOiAxMHB4OwogIGJhY2tncm91bmQ6IHt7IFRIVU1CX0NPTE9SIH19OwogIGN1cnNvcjogZXctcmVzaXplOwp9CmlucHV0W3R5cGU9cmFuZ2VdLmNvbnRyb2wtcGFuZWwtcmFuZ2Ute3sgVVVJRCB9fTo6LW1zLXRyYWNrIHsKICB3aWR0aDogMTAwJTsKICBoZWlnaHQ6IDIwcHg7CiAgY3Vyc29yOiBldy1yZXNpemU7CiAgYmFja2dyb3VuZDogdHJhbnNwYXJlbnQ7CiAgYm9yZGVyLWNvbG9yOiB0cmFuc3BhcmVudDsKICBjb2xvcjogdHJhbnNwYXJlbnQ7Cn0KaW5wdXRbdHlwZT1yYW5nZV0uY29udHJvbC1wYW5lbC1yYW5nZS17eyBVVUlEIH19OjotbXMtZmlsbC1sb3dlciB7CiAgYmFja2dyb3VuZDoge3sgVFJBQ0tfQ09MT1IgfX07Cn0KaW5wdXRbdHlwZT1yYW5nZV0uY29udHJvbC1wYW5lbC1yYW5nZS17eyBVVUlEIH19OjotbXMtZmlsbC11cHBlciB7CiAgYmFja2dyb3VuZDoge3sgVFJBQ0tfQ09MT1IgfX07Cn0KaW5wdXRbdHlwZT1yYW5nZV0uY29udHJvbC1wYW5lbC1yYW5nZS17eyBVVUlEIH19OjotbXMtdGh1bWIgewogIHdpZHRoOiAxMHB4OwogIGJhY2tncm91bmQ6IHt7IFRIVU1CX0NPTE9SIH19OwogIGN1cnNvcjogZXctcmVzaXplOwogIGhlaWdodDogMjBweDsKfQppbnB1dFt0eXBlPXJhbmdlXS5jb250cm9sLXBhbmVsLXJhbmdlLXt7IFVVSUQgfX06Zm9jdXM6Oi1tcy1maWxsLWxvd2VyIHsKICBiYWNrZ3JvdW5kOiB7eyBUUkFDS19DT0xPUiB9fTsKICBvdXRsaW5lOiBub25lOwp9CmlucHV0W3R5cGU9cmFuZ2VdLmNvbnRyb2wtcGFuZWwtcmFuZ2Ute3sgVVVJRCB9fTpmb2N1czo6LW1zLWZpbGwtdXBwZXIgewogIGJhY2tncm91bmQ6IHt7IFRSQUNLX0NPTE9SIH19OwogIG91dGxpbmU6IG5vbmU7Cn0KaW5wdXRbdHlwZT1yYW5nZV0uY29udHJvbC1wYW5lbC1yYW5nZS17eyBVVUlEIH19IHsKICAtd2Via2l0LWFwcGVhcmFuY2U6IG5vbmU7CiAgd2lkdGg6IDEwMCU7CiAgbWFyZ2luOiAwcHggMDsKfQppbnB1dFt0eXBlPXJhbmdlXS5jb250cm9sLXBhbmVsLXJhbmdlLXt7IFVVSUQgfX06Zm9jdXMgewogIG91dGxpbmU6IG5vbmU7Cn0KaW5wdXRbdHlwZT1yYW5nZV0uY29udHJvbC1wYW5lbC1yYW5nZS17eyBVVUlEIH19Ojotd2Via2l0LXNsaWRlci1ydW5uYWJsZS10cmFjayB7CiAgd2lkdGg6IDEwMCU7CiAgaGVpZ2h0OiAyMHB4OwogIGN1cnNvcjogZXctcmVzaXplOwogIGJhY2tncm91bmQ6IHt7IFRSQUNLX0NPTE9SIH19Owp9CmlucHV0W3R5cGU9cmFuZ2VdLmNvbnRyb2wtcGFuZWwtcmFuZ2Ute3sgVVVJRCB9fTo6LXdlYmtpdC1zbGlkZXItdGh1bWIgewogIGhlaWdodDogMjBweDsKICB3aWR0aDogMTBweDsKICBiYWNrZ3JvdW5kOiB7eyBUSFVNQl9DT0xPUiB9fTsKICBjdXJzb3I6IGV3LXJlc2l6ZTsKICAtd2Via2l0LWFwcGVhcmFuY2U6IG5vbmU7CiAgbWFyZ2luLXRvcDogMHB4Owp9CmlucHV0W3R5cGU9cmFuZ2VdLmNvbnRyb2wtcGFuZWwtcmFuZ2Ute3sgVVVJRCB9fTpmb2N1czo6LXdlYmtpdC1zbGlkZXItcnVubmFibGUtdHJhY2sgewogIGJhY2tncm91bmQ6IHt7IFRSQUNLX0NPTE9SIH19OwogIG91dGxpbmU6IG5vbmU7Cn0KaW5wdXRbdHlwZT1yYW5nZV0uY29udHJvbC1wYW5lbC1yYW5nZS17eyBVVUlEIH19OjotbW96LXJhbmdlLXRyYWNrIHsKICB3aWR0aDogMTAwJTsKICBoZWlnaHQ6IDIwcHg7CiAgY3Vyc29yOiBldy1yZXNpemU7CiAgYmFja2dyb3VuZDoge3sgVFJBQ0tfQ09MT1IgfX07Cn0KaW5wdXRbdHlwZT1yYW5nZV0uY29udHJvbC1wYW5lbC1yYW5nZS17eyBVVUlEIH19OjotbW96LXJhbmdlLXRodW1iIHsKICBib3JkZXI6IDBweCBzb2xpZCByZ2JhKDAsIDAsIDAsIDApOwogIGhlaWdodDogMjBweDsKICB3aWR0aDogMTBweDsKICBib3JkZXItcmFkaXVzOiAwcHg7CiAgYmFja2dyb3VuZDoge3sgVEhVTUJfQ09MT1IgfX07CiAgY3Vyc29yOiBldy1yZXNpemU7Cn0KaW5wdXRbdHlwZT1yYW5nZV0uY29udHJvbC1wYW5lbC1yYW5nZS17eyBVVUlEIH19OjotbXMtdHJhY2sgewogIHdpZHRoOiAxMDAlOwogIGhlaWdodDogMjBweDsKICBjdXJzb3I6IGV3LXJlc2l6ZTsKICBiYWNrZ3JvdW5kOiB0cmFuc3BhcmVudDsKICBib3JkZXItY29sb3I6IHRyYW5zcGFyZW50OwogIGNvbG9yOiB0cmFuc3BhcmVudDsKfQppbnB1dFt0eXBlPXJhbmdlXS5jb250cm9sLXBhbmVsLXJhbmdlLXt7IFVVSUQgfX06Oi1tcy1maWxsLWxvd2VyIHsKICBiYWNrZ3JvdW5kOiB7eyBUUkFDS19DT0xPUiB9fTsKfQppbnB1dFt0eXBlPXJhbmdlXS5jb250cm9sLXBhbmVsLXJhbmdlLXt7IFVVSUQgfX06Oi1tcy1maWxsLXVwcGVyIHsKICBiYWNrZ3JvdW5kOiB7eyBUUkFDS19DT0xPUiB9fTsKfQppbnB1dFt0eXBlPXJhbmdlXS5jb250cm9sLXBhbmVsLXJhbmdlLXt7IFVVSUQgfX06Oi1tcy10aHVtYiB7CiAgd2lkdGg6IDEwcHg7CiAgYmFja2dyb3VuZDoge3sgVEhVTUJfQ09MT1IgfX07CiAgY3Vyc29yOiBldy1yZXNpemU7CiAgaGVpZ2h0OiAyMHB4Owp9CmlucHV0W3R5cGU9cmFuZ2VdLmNvbnRyb2wtcGFuZWwtcmFuZ2Ute3sgVVVJRCB9fTpmb2N1czo6LW1zLWZpbGwtbG93ZXIgewogIGJhY2tncm91bmQ6IHt7IFRSQUNLX0NPTE9SIH19OwogIG91dGxpbmU6IG5vbmU7Cn0KaW5wdXRbdHlwZT1yYW5nZV0uY29udHJvbC1wYW5lbC1yYW5nZS17eyBVVUlEIH19OmZvY3VzOjotbXMtZmlsbC11cHBlciB7CiAgYmFja2dyb3VuZDoge3sgVFJBQ0tfQ09MT1IgfX07CiAgb3V0bGluZTogbm9uZTsKfQ==","base64");
+  var checkboxcss = Buffer("aW5wdXRbdHlwZT0iY2hlY2tib3giXS5jb250cm9sLXBhbmVsLWNoZWNrYm94LXt7IFVVSUQgfX0gewogIGRpc3BsYXk6bm9uZTsKICBjdXJzb3I6IHBvaW50ZXI7IAp9CgppbnB1dFt0eXBlPWNoZWNrYm94XS5jb250cm9sLXBhbmVsLWNoZWNrYm94LXt7IFVVSUQgfX0gKyBsYWJlbDpiZWZvcmUgewogIGNvbnRlbnQ6ICIiOyAgCiAgZGlzcGxheTogaW5saW5lLWJsb2NrOyAgCiAgd2lkdGg6IDE4cHg7ICAKICBoZWlnaHQ6IDE4cHg7ICAKICBwYWRkaW5nOiAwcHg7CiAgdmVydGljYWwtYWxpZ246bWlkZGxlOwogIG1hcmdpbi1yaWdodDogOHB4OyAKICBtYXJnaW4tdG9wOiAycHg7IAogIGJhY2tncm91bmQtY29sb3I6IHt7IEJPWF9DT0xPUiB9fTsgIAogIGJvcmRlci1yYWRpdXM6IDBweDsgCiAgY3Vyc29yOiBwb2ludGVyOyAKfQoKaW5wdXRbdHlwZT1jaGVja2JveF06Y2hlY2tlZC5jb250cm9sLXBhbmVsLWNoZWNrYm94LXt7IFVVSUQgfX0gICsgbGFiZWw6YmVmb3JlIHsKICB3aWR0aDogMTBweDsgIAogIGhlaWdodDogMTBweDsgIAogIGJhY2tncm91bmQtY29sb3I6IHt7IElDT05fQ09MT1IgfX07CiAgYm9yZGVyOiBzb2xpZCA0cHgge3sgQk9YX0NPTE9SIH19OwogIGN1cnNvcjogcG9pbnRlcjsgCn0=","base64");
+  var multiboxcss = Buffer("aW5wdXRbdHlwZT0iY2hlY2tib3giXS5jb250cm9sLXBhbmVsLW11bHRpYm94LXt7IFVVSUQgfX0gewogIGRpc3BsYXk6bm9uZTsKICBjdXJzb3I6IHBvaW50ZXI7IAp9CgppbnB1dFt0eXBlPWNoZWNrYm94XS5jb250cm9sLXBhbmVsLW11bHRpYm94LXt7IFVVSUQgfX0gKyBsYWJlbDpiZWZvcmUgewogIGNvbnRlbnQ6ICIiOyAgCiAgZGlzcGxheTogaW5saW5lLWJsb2NrOyAgCiAgd2lkdGg6IDE4cHg7ICAKICBoZWlnaHQ6IDE4cHg7ICAKICBwYWRkaW5nOiAwcHg7CiAgdmVydGljYWwtYWxpZ246bWlkZGxlOwogIG1hcmdpbi1yaWdodDogOHB4OyAKICBtYXJnaW4tdG9wOiAycHg7IAogIG1hcmdpbi1ib3R0b206IDFweDsKICBiYWNrZ3JvdW5kLWNvbG9yOiB7eyBCT1hfQ09MT1IgfX07ICAKICBib3JkZXItcmFkaXVzOiAwcHg7IAogIGN1cnNvcjogcG9pbnRlcjsgCn0KCmlucHV0W3R5cGU9Y2hlY2tib3hdOmNoZWNrZWQuY29udHJvbC1wYW5lbC1tdWx0aWJveC17eyBVVUlEIH19ICArIGxhYmVsOmJlZm9yZSB7CiAgd2lkdGg6IDEwcHg7ICAKICBoZWlnaHQ6IDEwcHg7ICAKICBiYWNrZ3JvdW5kLWNvbG9yOiB7eyBJQ09OX0NPTE9SIH19OwogIGJvcmRlcjogc29saWQgNHB4IHt7IEJPWF9DT0xPUiB9fTsKICBjdXJzb3I6IHBvaW50ZXI7IAp9CgouY29udHJvbC1wYW5lbC1tdWx0aWJveC1uYW1lLXt7IFVVSUQgfX0gewogIHBhZGRpbmctcmlnaHQ6IDdweDsKICB2ZXJ0aWNhbC1hbGlnbjogbWlkZGxlOwp9","base64");
+  var buttoncss = Buffer("LmNvbnRyb2wtcGFuZWwtYnV0dG9uLXt7IFVVSUQgfX0gewogIGNvbG9yOiB7eyBCVVRUT05fQ09MT1IgfX07CiAgYmFja2dyb3VuZC1jb2xvcjoge3sgQlVUVE9OX0JHIH19Owp9Ci5jb250cm9sLXBhbmVsLWJ1dHRvbi17eyBVVUlEIH19OmhvdmVyIHsKICBjb2xvcjoge3sgQlVUVE9OX0NPTE9SX0hPVkVSIH19OwogIGJhY2tncm91bmQtY29sb3I6IHt7IEJVVFRPTl9CR19IT1ZFUiB9fTsKfQouY29udHJvbC1wYW5lbC1idXR0b24te3sgVVVJRCB9fTphY3RpdmUgewogIGNvbG9yOiB7eyBCVVRUT05fQ09MT1JfQUNUSVZFIH19OwogIGJhY2tncm91bmQtY29sb3I6IHt7IEJVVFRPTl9CR19BQ1RJVkUgfX07Cn0K","base64");
+  var intervalcss = Buffer("LmNvbnRyb2wtcGFuZWwtaW50ZXJ2YWwte3sgVVVJRCB9fSB7CiAgLXdlYmtpdC1hcHBlYXJhbmNlOiBub25lOwogIHBvc2l0aW9uOiBhYnNvbHV0ZTsKICBoZWlnaHQ6IDIwcHg7CiAgbWFyZ2luOiAwcHggMDsKICB3aWR0aDogMzMlOwogIGxlZnQ6IDUyLjUlOwogIGJhY2tncm91bmQtY29sb3I6IHt7IFRSQUNLX0NPTE9SIH19OwogIGN1cnNvcjogZXctcmVzaXplOwoKICAtd2Via2l0LXRvdWNoLWNhbGxvdXQ6IG5vbmU7CiAgLXdlYmtpdC11c2VyLXNlbGVjdDogbm9uZTsKICAta2h0bWwtdXNlci1zZWxlY3Q6IG5vbmU7CiAgLW1vei11c2VyLXNlbGVjdDogbm9uZTsKICAtbXMtdXNlci1zZWxlY3Q6IG5vbmU7CiAgdXNlci1zZWxlY3Q6IG5vbmU7Cn0KLmNvbnRyb2wtcGFuZWwtaW50ZXJ2YWwte3sgVVVJRCB9fSAuY29udHJvbC1wYW5lbC1pbnRlcnZhbC1oYW5kbGUgewogIGJhY2tncm91bmQtY29sb3I6IHt7IElOVEVSVkFMX0NPTE9SIH19OwogIHBvc2l0aW9uOiBhYnNvbHV0ZTsKICBoZWlnaHQ6IDIwcHg7CiAgbWluLXdpZHRoOiAxcHg7Cn0KI2NvbnRyb2wtcGFuZWwte3sgVVVJRCB9fS5jb250cm9sLXBhbmVsLWludGVydmFsLWRyYWdnaW5nICogewogIC13ZWJraXQtdG91Y2gtY2FsbG91dDogbm9uZSAhaW1wb3J0YW50OwogIC13ZWJraXQtdXNlci1zZWxlY3Q6IG5vbmUgIWltcG9ydGFudDsKICAta2h0bWwtdXNlci1zZWxlY3Q6IG5vbmUgIWltcG9ydGFudDsKICAtbW96LXVzZXItc2VsZWN0OiBub25lICFpbXBvcnRhbnQ7CiAgLW1zLXVzZXItc2VsZWN0OiBub25lICFpbXBvcnRhbnQ7CiAgdXNlci1zZWxlY3Q6IG5vbmUgIWltcG9ydGFudDsKCiAgY3Vyc29yOiBldy1yZXNpemUgIWltcG9ydGFudDsKfQo=","base64");
+  var selectcss = Buffer("LmNvbnRyb2wtcGFuZWwtc2VsZWN0LXt7IFVVSUQgfX0tZHJvcGRvd24gewogIGRpc3BsYXk6IGlubGluZS1ibG9jazsKICBwb3NpdGlvbjogYWJzb2x1dGU7CiAgd2lkdGg6IDYyJTsKICBwYWRkaW5nLWxlZnQ6IDEuNSU7CiAgaGVpZ2h0OiAyMHB4OwogIGJvcmRlcjogbm9uZTsKICBib3JkZXItcmFkaXVzOiAwOwogIG91dGxpbmU6IG5vbmU7CiAgLXdlYmtpdC1hcHBlYXJhbmNlOiBub25lOwogIC1tb3otYXBwZWFyYW5jZTogbm9uZTsKICAtby1hcHBlYXJhbmNlOm5vbmU7CiAgYXBwZWFyYW5jZTpub25lOwogIGZvbnQtZmFtaWx5OiBpbmhlcml0OwogIGJhY2tncm91bmQtY29sb3I6IHt7IEJHX0NPTE9SIH19OwogIGNvbG9yOiB7eyBURVhUX0NPTE9SIH19Owp9Ci5jb250cm9sLXBhbmVsLXNlbGVjdC17eyBVVUlEIH19LWRyb3Bkb3duOjotbXMtZXhwYW5kIHsKICBkaXNwbGF5Om5vbmU7Cn0KLmNvbnRyb2wtcGFuZWwtc2VsZWN0LXt7IFVVSUQgfX0tdHJpYW5nbGUgewogIGNvbnRlbnQ6ICcgJzsKICBib3JkZXItcmlnaHQ6IDNweCBzb2xpZCB0cmFuc3BhcmVudDsKICBib3JkZXItbGVmdDogM3B4IHNvbGlkIHRyYW5zcGFyZW50OwogIGxpbmUtaGVpZ2h0OiAyMHB4OwogIHBvc2l0aW9uOiBhYnNvbHV0ZTsKICByaWdodDogMi41JTsKICB6LWluZGV4OiAxOwp9Ci5jb250cm9sLXBhbmVsLXNlbGVjdC17eyBVVUlEIH19LXRyaWFuZ2xlLS1kb3duIHsKICB0b3A6IDExcHg7CiAgYm9yZGVyLXRvcDogNXB4IHNvbGlkIHt7IFRFWFRfQ09MT1IgfX07CiAgYm9yZGVyLWJvdHRvbTogMHB4IHRyYW5zcGFyZW50Owp9Ci5jb250cm9sLXBhbmVsLXNlbGVjdC17eyBVVUlEIH19LXRyaWFuZ2xlLS11cCB7CiAgdG9wOiA0cHg7CiAgYm9yZGVyLWJvdHRvbTogNXB4IHNvbGlkIHt7IFRFWFRfQ09MT1IgfX07CiAgYm9yZGVyLXRvcDogMHB4IHRyYW5zcGFyZW50Owp9Cg==","base64");
 
-  rangecss = String(rangecss)
-    .replace(new RegExp('{{ THUMB_COLOR }}', 'g'), opts.theme.foreground1)
-    .replace(new RegExp('{{ TRACK_COLOR }}', 'g'), opts.theme.background2)
-    .replace(new RegExp('{{ UUID }}', 'g'), id)
-  checkboxcss = String(checkboxcss)
-    .replace(new RegExp('{{ BOX_COLOR }}', 'g'), opts.theme.background2)
-    .replace(new RegExp('{{ ICON_COLOR }}', 'g'), opts.theme.foreground1)
-    .replace(new RegExp('{{ UUID }}', 'g'), id)
-  multiboxcss = String(multiboxcss)
-    .replace(new RegExp('{{ BOX_COLOR }}', 'g'), opts.theme.background2)
-    .replace(new RegExp('{{ ICON_COLOR }}', 'g'), opts.theme.foreground1)
-    .replace(new RegExp('{{ UUID }}', 'g'), id)
-  buttoncss = String(buttoncss)
-    .replace(new RegExp('{{ BUTTON_COLOR }}', 'g'), opts.theme.text2)
-    .replace(new RegExp('{{ BUTTON_BG }}', 'g'), opts.theme.background2)
-    .replace(new RegExp('{{ BUTTON_COLOR_HOVER }}', 'g'), opts.theme.text2)
-    .replace(new RegExp('{{ BUTTON_BG_HOVER }}', 'g'), opts.theme.background2hover)
-    .replace(new RegExp('{{ BUTTON_COLOR_ACTIVE }}', 'g'), opts.theme.background2)
-    .replace(new RegExp('{{ BUTTON_BG_ACTIVE }}', 'g'), opts.theme.text2)
-    .replace(new RegExp('{{ UUID }}', 'g'), id)
-  intervalcss = String(intervalcss)
-    .replace(new RegExp('{{ INTERVAL_COLOR }}', 'g'), opts.theme.foreground1)
-    .replace(new RegExp('{{ TRACK_COLOR }}', 'g'), opts.theme.background2)
-    .replace(new RegExp('{{ UUID }}', 'g'), id)
-  selectcss = String(selectcss)
-    .replace(new RegExp('{{ TEXT_COLOR }}', 'g'), opts.theme.text2)
-    .replace(new RegExp('{{ BG_COLOR }}', 'g'), opts.theme.background2)
-    .replace(new RegExp('{{ BG_COLOR_HOVER }}', 'g'), opts.theme.background2hover)
-    .replace(new RegExp('{{ UUID }}', 'g'), id)
-  insertcss(basecss)
-  insertcss(rangecss)
-  insertcss(colorcss)
-  insertcss(checkboxcss)
-  insertcss(multiboxcss)
-  insertcss(buttoncss)
-  insertcss(intervalcss)
-  insertcss(selectcss)
+  rangecss = String(rangecss).replace(new RegExp('{{ THUMB_COLOR }}', 'g'), opts.theme.foreground1).replace(new RegExp('{{ TRACK_COLOR }}', 'g'), opts.theme.background2).replace(new RegExp('{{ UUID }}', 'g'), id);
+  checkboxcss = String(checkboxcss).replace(new RegExp('{{ BOX_COLOR }}', 'g'), opts.theme.background2).replace(new RegExp('{{ ICON_COLOR }}', 'g'), opts.theme.foreground1).replace(new RegExp('{{ UUID }}', 'g'), id);
+  multiboxcss = String(multiboxcss).replace(new RegExp('{{ BOX_COLOR }}', 'g'), opts.theme.background2).replace(new RegExp('{{ ICON_COLOR }}', 'g'), opts.theme.foreground1).replace(new RegExp('{{ UUID }}', 'g'), id);
+  buttoncss = String(buttoncss).replace(new RegExp('{{ BUTTON_COLOR }}', 'g'), opts.theme.text2).replace(new RegExp('{{ BUTTON_BG }}', 'g'), opts.theme.background2).replace(new RegExp('{{ BUTTON_COLOR_HOVER }}', 'g'), opts.theme.text2).replace(new RegExp('{{ BUTTON_BG_HOVER }}', 'g'), opts.theme.background2hover).replace(new RegExp('{{ BUTTON_COLOR_ACTIVE }}', 'g'), opts.theme.background2).replace(new RegExp('{{ BUTTON_BG_ACTIVE }}', 'g'), opts.theme.text2).replace(new RegExp('{{ UUID }}', 'g'), id);
+  intervalcss = String(intervalcss).replace(new RegExp('{{ INTERVAL_COLOR }}', 'g'), opts.theme.foreground1).replace(new RegExp('{{ TRACK_COLOR }}', 'g'), opts.theme.background2).replace(new RegExp('{{ UUID }}', 'g'), id);
+  selectcss = String(selectcss).replace(new RegExp('{{ TEXT_COLOR }}', 'g'), opts.theme.text2).replace(new RegExp('{{ BG_COLOR }}', 'g'), opts.theme.background2).replace(new RegExp('{{ BG_COLOR_HOVER }}', 'g'), opts.theme.background2hover).replace(new RegExp('{{ UUID }}', 'g'), id);
+  insertcss(basecss);
+  insertcss(rangecss);
+  insertcss(colorcss);
+  insertcss(checkboxcss);
+  insertcss(multiboxcss);
+  insertcss(buttoncss);
+  insertcss(intervalcss);
+  insertcss(selectcss);
 
-  var elem = document.createElement('style')
-  elem.setAttribute('type', 'text/css')
-  elem.setAttribute('rel', 'stylesheet')
-  elem.setAttribute('href', '//cdn.jsdelivr.net/font-hack/2.019/css/hack.min.css')
-  document.getElementsByTagName('head')[0].appendChild(elem)
+  var elem = document.createElement('style');
+  elem.setAttribute('type', 'text/css');
+  elem.setAttribute('rel', 'stylesheet');
+  elem.setAttribute('href', '//cdn.jsdelivr.net/font-hack/2.019/css/hack.min.css');
+  document.getElementsByTagName('head')[0].appendChild(elem);
 
   css(box, {
     background: opts.theme.background1,
@@ -880,20 +841,15 @@ function Plate (items, opts) {
     padding: '14px',
     paddingBottom: '8px',
     opacity: 0.95
-  })
+  });
 
-  if (opts.position === 'top-right' ||
-    opts.position === 'top-left' ||
-    opts.position === 'bottom-right' ||
-    opts.position === 'bottom-left') css(box, {position: 'absolute'})
+  if (opts.position === 'top-right' || opts.position === 'top-left' || opts.position === 'bottom-right' || opts.position === 'bottom-left') css(box, { position: 'absolute' });
 
-  if (opts.position === 'top-right' || opts.position === 'bottom-right') css(box, {right: 8})
-  else css(box, {left: 8})
+  if (opts.position === 'top-right' || opts.position === 'bottom-right') css(box, { right: 8 });else css(box, { left: 8 });
 
-  if (opts.position === 'top-right' || opts.position === 'top-left') css(box, {top: 8})
-  else css(box, {bottom: 8})
+  if (opts.position === 'top-right' || opts.position === 'top-left') css(box, { top: 8 });else css(box, { bottom: 8 });
 
-  if (opts.title) require('./components/title')(box, opts.title, opts.theme)
+  if (opts.title) require('./components/title')(box, opts.title, opts.theme);
 
   var components = {
     button: require('./components/button'),
@@ -904,35 +860,34 @@ function Plate (items, opts) {
     color: require('./components/color'),
     interval: require('./components/interval'),
     select: require('./components/select')
-  }
+  };
 
-  var element
-  var state = {}
+  var element;
+  var state = {};
 
   items.forEach(function (item) {
     if (item.type !== 'button') {
-      state[item.label] = item.initial
+      state[item.label] = item.initial;
     }
-  })
+  });
 
   items.forEach(function (item) {
-    element = components[item.type](box, item, opts.theme, id)
+    element = components[item.type](box, item, opts.theme, id);
 
     element.on('initialized', function (data) {
-      state[item.label] = data
-    })
+      state[item.label] = data;
+    });
 
     element.on('input', function (data) {
-      state[item.label] = data
-      self.emit('input', state)
-    })
-  })
+      state[item.label] = data;
+      self.emit('input', state);
+    });
+  });
 
-  self.state = state
+  self.state = state;
 
-  opts.root.appendChild(box)
+  opts.root.appendChild(box);
 }
-
 }).call(this,require("buffer").Buffer)
 },{"./components/button":1,"./components/checkbox":2,"./components/color":3,"./components/interval":5,"./components/multibox":7,"./components/range":8,"./components/select":9,"./components/text":10,"./components/title":11,"./themes":207,"buffer":62,"dom-css":83,"events":60,"inherits":120,"insert-css":121,"is-string":125,"node-uuid":142,"path":149}],14:[function(require,module,exports){
 /* The following list is defined in React's core */
@@ -27775,7 +27730,6 @@ module.exports = {
     text1: 'rgb(235,235,235)',
     text2: 'rgb(161,161,161)'
   }
-}
-
+};
 },{}]},{},[13])(13)
 });
