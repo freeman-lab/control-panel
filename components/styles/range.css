@@ -31,140 +31,6 @@ input[type=range].control-panel-range-{{ UUID }}::-moz-range-track {
   background: {{ TRACK_COLOR }};
 }
 input[type=range].control-panel-range-{{ UUID }}::-moz-range-thumb {
-  height: 20px;
-  width: 10px;
-  background: {{ THUMB_COLOR }};
-  cursor: ew-resize;
-}
-input[type=range].control-panel-range-{{ UUID }}::-ms-track {
-  width: 100%;
-  height: 20px;
-  cursor: ew-resize;
-  background: transparent;
-  border-color: transparent;
-  color: transparent;
-}
-input[type=range].control-panel-range-{{ UUID }}::-ms-fill-lower {
-  background: {{ TRACK_COLOR }};
-}
-input[type=range].control-panel-range-{{ UUID }}::-ms-fill-upper {
-  background: {{ TRACK_COLOR }};
-}
-input[type=range].control-panel-range-{{ UUID }}::-ms-thumb {
-  width: 10px;
-  border-radius: 0px;
-  background: {{ THUMB_COLOR }};
-  cursor: ew-resize;
-  height: 20px;
-}
-input[type=range].control-panel-range-{{ UUID }}:focus::-ms-fill-lower {
-  background: {{ TRACK_COLOR }};
-  outline: none;
-}
-input[type=range].control-panel-range-{{ UUID }}:focus::-ms-fill-upper {
-  background: {{ TRACK_COLOR }};
-  outline: none;
-}
-
-input[type=range].control-panel-range-{{ UUID }} {
-  -webkit-appearance: none;
-  width: 100%;
-  margin: 0px 0;
-}
-input[type=range].control-panel-range-{{ UUID }}:focus {
-  outline: none;
-}
-input[type=range].control-panel-range-{{ UUID }}::-webkit-slider-runnable-track {
-  width: 100%;
-  height: 20px;
-  cursor: ew-resize;
-  background: {{ TRACK_COLOR }};
-}
-input[type=range].control-panel-range-{{ UUID }}::-webkit-slider-thumb {
-  height: 20px;
-  width: 10px;
-  background: {{ THUMB_COLOR }};
-  cursor: ew-resize;
-  -webkit-appearance: none;
-  margin-top: 0px;
-}
-input[type=range].control-panel-range-{{ UUID }}:focus::-webkit-slider-runnable-track {
-  background: {{ TRACK_COLOR }};
-  outline: none;
-}
-input[type=range].control-panel-range-{{ UUID }}::-moz-range-track {
-  width: 100%;
-  height: 20px;
-  cursor: ew-resize;
-  background: {{ TRACK_COLOR }};
-}
-input[type=range].control-panel-range-{{ UUID }}::-moz-range-thumb {
-  height: 20px;
-  width: 10px;
-  background: {{ THUMB_COLOR }};
-  cursor: ew-resize;
-}
-input[type=range].control-panel-range-{{ UUID }}::-ms-track {
-  width: 100%;
-  height: 20px;
-  cursor: ew-resize;
-  background: transparent;
-  border-color: transparent;
-  color: transparent;
-}
-input[type=range].control-panel-range-{{ UUID }}::-ms-fill-lower {
-  background: {{ TRACK_COLOR }};
-}
-input[type=range].control-panel-range-{{ UUID }}::-ms-fill-upper {
-  background: {{ TRACK_COLOR }};
-}
-input[type=range].control-panel-range-{{ UUID }}::-ms-thumb {
-  width: 10px;
-  background: {{ THUMB_COLOR }};
-  cursor: ew-resize;
-  height: 20px;
-}
-input[type=range].control-panel-range-{{ UUID }}:focus::-ms-fill-lower {
-  background: {{ TRACK_COLOR }};
-  outline: none;
-}
-input[type=range].control-panel-range-{{ UUID }}:focus::-ms-fill-upper {
-  background: {{ TRACK_COLOR }};
-  outline: none;
-}
-input[type=range].control-panel-range-{{ UUID }} {
-  -webkit-appearance: none;
-  width: 100%;
-  margin: 0px 0;
-}
-input[type=range].control-panel-range-{{ UUID }}:focus {
-  outline: none;
-}
-input[type=range].control-panel-range-{{ UUID }}::-webkit-slider-runnable-track {
-  width: 100%;
-  height: 20px;
-  cursor: ew-resize;
-  background: {{ TRACK_COLOR }};
-}
-input[type=range].control-panel-range-{{ UUID }}::-webkit-slider-thumb {
-  height: 20px;
-  width: 10px;
-  background: {{ THUMB_COLOR }};
-  cursor: ew-resize;
-  -webkit-appearance: none;
-  margin-top: 0px;
-}
-input[type=range].control-panel-range-{{ UUID }}:focus::-webkit-slider-runnable-track {
-  background: {{ TRACK_COLOR }};
-  outline: none;
-}
-input[type=range].control-panel-range-{{ UUID }}::-moz-range-track {
-  width: 100%;
-  height: 20px;
-  cursor: ew-resize;
-  background: {{ TRACK_COLOR }};
-}
-input[type=range].control-panel-range-{{ UUID }}::-moz-range-thumb {
   border: 0px solid rgba(0, 0, 0, 0);
   height: 20px;
   width: 10px;
@@ -188,6 +54,7 @@ input[type=range].control-panel-range-{{ UUID }}::-ms-fill-upper {
 }
 input[type=range].control-panel-range-{{ UUID }}::-ms-thumb {
   width: 10px;
+  border-radius: 0px;
   background: {{ THUMB_COLOR }};
   cursor: ew-resize;
   height: 20px;
