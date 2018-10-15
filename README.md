@@ -47,7 +47,7 @@ var panel = control([
   {type: 'checkbox', label: 'my checkbox', initial: true},
   {type: 'color', label: 'my color', format: 'rgb', initial: 'rgb(10,200,0)'},
   {type: 'button', label: 'gimme an alert', action: function () {alert('hello!');}},
-  {type: 'select', label: 'select one', options: ['option 1', 'option 2'], initial: 'option 1'}
+  {type: 'select', label: 'select one', options: ['option 1', 'option 2'], initial: 'option 1'},
   {type: 'multibox', label: 'check many', count: 3, initial: [true, false, true]}
 ], 
   {theme: 'light', position: 'top-right'}
