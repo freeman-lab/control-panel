@@ -83,8 +83,7 @@ function Plate (items, opts) {
     background: opts.theme.background1,
     width: opts.width,
     padding: '14px',
-    paddingBottom: '8px',
-    opacity: 0.95
+    paddingBottom: '8px'
   })
 
   if (opts.position === 'top-right' ||
