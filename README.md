@@ -102,6 +102,10 @@ access its current value using
 panel.state['my checkbox']
 ```
 
+#### react port
+
+This project has been ported to work with React and is available as [react-control-panel](https://github.com/ameobea/react-control-panel) on NPM.  The visual appearance is identical to that of the original, and some features have been added including externally managed state and an ES6 Proxy-based API for reading/writing the UI state remotely.
+
 #### see also
 
 - [oui](https://github.com/wearekuva/oui)
