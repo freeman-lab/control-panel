@@ -2,12 +2,13 @@
   "name": "control-panel",
   "version": "1.3.4",
   "description": "embeddable panel of inputs for parameter setting",
-  "main": "index.js",
+  "main": "build/control-panel.js",
   "scripts": {
     "start": "watchify-server example.js | garnish",
     "test": "standard && browserify test.js | smokestack | tap-spec",
-    "build": "browserify demo/index.js -o demo/bundle.js",
-    "deploy": "npm run build && surge demo control-panel.surge.sh"
+    "build": "browserify -s control index.js -o build/control-panel.js -t es2040",
+    "build-demo": "browserify demo/index.js -o demo/bundle.js",
+    "deploy-demo": "npm run build-demo && surge demo control-panel.surge.sh"
   },
   "repository": {
     "type": "git",
@@ -45,6 +46,7 @@
     "tinycolor2": "^1.3.0"
   },
   "devDependencies": {
+    "es2040": "^1.2.6",
     "garnish": "^5.0.1",
     "smokestack": "^3.4.1",
     "standard": "^7.1.0",
