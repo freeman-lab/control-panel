@@ -6,7 +6,7 @@ var insertcss = require('insert-css')
 var path = require('path')
 var isstring = require('is-string')
 var themes = require('./themes')
-var uuid = require('node-uuid')
+var uuid = require('uuid')
 
 module.exports = Plate
 inherits(Plate, EventEmitter)
